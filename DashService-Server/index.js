@@ -1,24 +1,31 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const path = require('path');
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
+const path = require("path");
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+const Database = require("./services/mongoDbService");
 
-
-
-
+// Assuming PORT is defined somewhere in your code
+const PORT = 3000;
 
 app.use(express.raw());
-app.use(express.static(path.resolve('./public')));
+app.use(express.static(path.resolve("./public")));
 app.use(cookieParser());
-app.use(express.static(path.resolve('./public')));
 
-app.get('/', (req,res)=>{
-    res.send("Hello world")
-})
+// Define your route
+app.get("/", (req, res) => {
+  res.send("Hello world");
+});
 
-
-const PORT = 8000;
-app.listen(PORT,()=>{
-    console.log(`Server started http://localhost:${PORT}`)
-})
+// Connect to the database and start the server
+(async () => {
+  try {
+    await Database.connect();
+    app.listen(PORT, () => {
+      console.log("Server is up on port " + PORT);
+      console.log("http://localhost:" + PORT);
+    });
+  } catch (error) {
+    console.error("Error connecting to the database:", error);
+  }
+})();
