@@ -8,7 +8,7 @@ class Database {
     try {
       mongoose.connect(MONGODB_URI, {
         useNewUrlParser: true,
-        useUnifiedTopology: true,
+       
       });
       console.log("Database connected successfully");
     } catch (error) {
