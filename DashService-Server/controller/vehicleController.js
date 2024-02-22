@@ -1,11 +1,31 @@
 const VehicleModel = require('../models/vehicleModel')
 const userModel = require('../models/userModel');
 const  ObjectId =  require('mongoose').Types.ObjectId;
+const multer = require('multer');
+const path = require('path');
+
+//creating storage for vehicle photo
+const storage = multer.diskStorage({
+    destination: function (req,file,cb){
+        cb(null,path.resolve('./public/vehiclePhotos'));
+    },
+    filename: function(req,file,cb){
+        const fileName = `${Date.now()}-${file.originalname}`;
+        cb(null,fileName);
+    }
+});
+const upload = multer({storage: storage});
 
 async function addVehicle(req,res){
     const body = req.body;
     const ownerUserId = req.params._id;
-
+    let imageUrl;
+    if(req.file){
+        imageUrl = `/vehiclePhotos/${req.file.filename}`;
+    } 
+    else{
+        imageUrl = '';
+    }
     if(!(body.make && body.model && body.year && body.licenseNumber )){
         return res.status(400).send("All input required");
     }
@@ -20,16 +40,22 @@ async function addVehicle(req,res){
     catch(e){
         return res.status(400).send("Invalid user")
     }
-    const vehicle = await VehicleModel.create({
-        ownerUserId: ownerUserId,
-        make: body.make,
-        model:body.model,
-        year: body.year,
-        licenseNumber: body.licenseNumber,
-        imageUrl: body.imageUrl
-    });
 
-    return res.status(201).send(vehicle);
+    try{
+        const vehicle = await VehicleModel.create({
+            ownerUserId: ownerUserId,
+            make: body.make,
+            model:body.model,
+            year: body.year,
+            licenseNumber: body.licenseNumber,
+            imageUrl: imageUrl
+        });
+    
+        return res.status(201).send(vehicle);
+    }
+   catch(e){
+    return res.status(500).send(`Error adding vehicle ${e}`);
+   }
 }
 
 async function getAllVehicle(req,res){
@@ -82,4 +108,4 @@ async function deleteVehicleById(req,res){
 
 }
 
-module.exports = {addVehicle,getAllVehicle,getAllVehicleOfUser, getVehicleById, deleteVehicleById};
+module.exports = {addVehicle,getAllVehicle,getAllVehicleOfUser, getVehicleById, deleteVehicleById, upload};
