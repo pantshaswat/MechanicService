@@ -8,32 +8,27 @@ const Database = require("./services/mongoDbService");
 const PORT = 3000;
 
 //!ROUTES
-const appointmentsRoutes = require("./routes/bookingRoutes");
-const authRouter = require('./routes/authRoutes')
-const vehiclePartRouter = require('./routes/vehiclePartRoutes')
-const vehicelRouter = require('./routes/vehicleRoutes')
-
+const bookingRoutes = require("./routes/bookingRoutes");
+const authRouter = require("./routes/authRoutes");
+const vehiclePartRouter = require("./routes/vehiclePartRoutes");
+const vehicleRouter = require("./routes/vehicleRoutes");
 
 app.use(express.raw());
 app.use(bodyParser.urlencoded({ extended: true })); // to support URL
 app.use(bodyParser.json()); // to support JSON-encoded bodies
 app.use(cookieParser());
+
 app.use(express.static(path.resolve("./public")));
 
 // Define your route
 app.get("/", (req, res) => {
   res.send("Hello world");
 });
-app.use("/auth",authRouter)
-app.use("/vehiclePart",vehiclePartRouter)
-app.use("/vehicle",vehicelRouter)
+app.use("/auth", authRouter);
+app.use("/vehiclePart", vehiclePartRouter);
+app.use("/vehicle", vehicleRouter);
 
-app.use("/appointments", appointmentsRoutes);
-
-
-
-
-
+app.use("/appointments", bookingRoutes);
 
 // Connect to the database and start the server
 (async () => {
