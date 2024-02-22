@@ -11,6 +11,7 @@ const PORT = 3000;
 const appointmentsRoutes = require("./routes/bookingRoutes");
 const authRouter = require('./routes/authRoutes')
 const vehiclePartRouter = require('./routes/vehiclePartRoutes')
+const vehicelRouter = require('./routes/vehicleRoutes')
 
 
 app.use(express.raw());
@@ -25,6 +26,7 @@ app.get("/", (req, res) => {
 });
 app.use("/auth",authRouter)
 app.use("/vehiclePart",vehiclePartRouter)
+app.use("/vehicle",vehicelRouter)
 
 app.use("/appointments", appointmentsRoutes);
 
