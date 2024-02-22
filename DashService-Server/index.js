@@ -10,7 +10,7 @@ const PORT = 3000;
 //!ROUTES
 const appointmentsRoutes = require("./routes/bookingRoutes");
 const authRouter = require('./routes/authRoutes')
-
+const vehiclePartRouter = require('./routes/vehiclePartRoutes')
 
 
 app.use(express.raw());
@@ -24,6 +24,7 @@ app.get("/", (req, res) => {
   res.send("Hello world");
 });
 app.use("/auth",authRouter)
+app.use("/vehiclePart",vehiclePartRouter)
 
 app.use("/appointments", appointmentsRoutes);
 

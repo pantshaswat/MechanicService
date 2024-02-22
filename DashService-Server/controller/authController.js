@@ -28,7 +28,7 @@ async function signIn(req, res){
     const {email, password} = req.body;
     
     if (!(email && password)) {
-        return res.status(400).send("All input is required");
+        return res.status(400).send("All input are required");
       }
 
       const user = await userModel.findOne({email});
