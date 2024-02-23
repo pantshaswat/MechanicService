@@ -6,7 +6,14 @@ const bookingsController = require("../controller/bookingController");
 // POST /bookings/book
 router.post("/book", bookingsController.bookAppointment);
 
-// GET /bookings/view/:userId
-// router.get("/view/:userId", bookingsController.viewbookings);
+// GET /appointments/view/:userId
+router.get("/view/:userId", bookingsController.viewAppointments);
+router.get("/view", bookingsController.viewAppointmentsAll);
+
+// POST /roadside-assistance/request
+router.post(
+  "/roadside-assistance/request",
+  bookingsController.requestRoadsideAssistance
+);
 
 module.exports = router;
