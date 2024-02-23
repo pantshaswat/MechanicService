@@ -4,10 +4,9 @@ const  ObjectId =  require('mongoose').Types.ObjectId;
 const multer = require('multer');
 const path = require('path');
 
-//creating storage for vehicle photo
 const storage = multer.diskStorage({
     destination: function (req,file,cb){
-        cb(null,path.resolve('./public/vehiclePhotos'));
+        cb(null,path.resolve(`./public/vehiclePhotos`));
     },
     filename: function(req,file,cb){
         const fileName = `${Date.now()}-${file.originalname}`;
@@ -21,6 +20,7 @@ async function addVehicle(req,res){
     const ownerUserId = req.params._id;
     let imageUrl;
     if(req.file){
+        console.log(req.file);
         imageUrl = `/vehiclePhotos/${req.file.filename}`;
     } 
     else{

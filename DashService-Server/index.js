@@ -1,9 +1,16 @@
 const express = require("express");
+const http = require('node:http');
 const app = express();
+const server = http.createServer(app);
 const path = require("path");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const Database = require("./services/mongoDbService");
+const fs = require('fs');
+
+const initializeSocketIO = require('./services/socketService');
+
+initializeSocketIO(server);
 // Assuming PORT is defined somewhere in your code
 const PORT = 3000;
 
@@ -12,7 +19,7 @@ const appointmentsRoutes = require("./routes/bookingRoutes");
 const authRouter = require('./routes/authRoutes')
 const vehiclePartRouter = require('./routes/vehiclePartRoutes')
 const vehicelRouter = require('./routes/vehicleRoutes')
-
+const notificationRouter = require('./routes/notificationRoutes');
 
 app.use(express.raw());
 app.use(bodyParser.urlencoded({ extended: true })); // to support URL
@@ -20,15 +27,21 @@ app.use(bodyParser.json()); // to support JSON-encoded bodies
 app.use(cookieParser());
 app.use(express.static(path.resolve("./public")));
 
+// for use of socket
+const home = fs.readFileSync('./index.html');
+
 // Define your route
-app.get("/", (req, res) => {
-  res.send("Hello world");
+app.get("/:id", (req, res) => {
+  res.end(home);
 });
+
+
 app.use("/auth",authRouter)
 app.use("/vehiclePart",vehiclePartRouter)
 app.use("/vehicle",vehicelRouter)
 
 app.use("/appointments", appointmentsRoutes);
+app.use("/notifications", notificationRouter);
 
 
 
@@ -39,7 +52,7 @@ app.use("/appointments", appointmentsRoutes);
 (async () => {
   try {
     await Database.connect();
-    app.listen(PORT, () => {
+    server.listen(PORT, () => {
       console.log("Server is up on port " + PORT);
       console.log("http://localhost:" + PORT);
     });
