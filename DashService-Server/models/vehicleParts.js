@@ -15,7 +15,21 @@ const VehicleParts = new mongoose.Schema({
     required: true,
     default: "",
   },
-  // Add more fields as needed
+  price: {
+    type: Number,
+    required: true,
+  },
+  category: {
+    type: String,
+    required: true,
+    enum: ["Engine", "Transmission", "Suspension", "Brakes", "Exhaust", "Electrical", "Interior", "Exterior","Others"],
+    default: "Others",
+  },
+  amount: {
+    type: Number,
+    required: true,
+    default: 10,
+  },
 });
 
 const VehiclePartsModel = mongoose.model("VehicleParts", VehicleParts);

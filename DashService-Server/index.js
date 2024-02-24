@@ -10,9 +10,11 @@ const PORT = 3000;
 
 //!ROUTES
 const appointmentsRoutes = require("./routes/bookingRoutes");
-// const usersRoutes = require("./routes/usersRoutes");
-
-app.use("/appointments", appointmentsRoutes);
+const authRouter = require('./routes/authRoutes')
+const vehiclePartRouter = require('./routes/vehiclePartRoutes')
+const vehicelRouter = require('./routes/vehicleRoutes')
+const notificationRouter = require('./routes/notificationRoutes');
+const marketplaceRouter = require("./routes/marketPlaceRoutes");
 
 app.use(bodyParser.json()); // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // to support URL
@@ -25,6 +27,19 @@ app.use(cookieParser());
 app.get("/", (req, res) => {
   res.send("Hello world");
 });
+
+
+app.use("/auth",authRouter)
+app.use("/vehiclePart",vehiclePartRouter)
+app.use("/vehicle",vehicelRouter)
+app.use("/marketplace",marketplaceRouter);
+app.use("/appointments", appointmentsRoutes);
+app.use("/notifications", notificationRouter);
+
+
+
+
+
 
 // Connect to the database and start the server
 (async () => {
