@@ -12,6 +12,7 @@ const bookingRoutes = require("./routes/bookingRoutes");
 const authRouter = require("./routes/authRoutes");
 const vehiclePartRouter = require("./routes/vehiclePartRoutes");
 const vehicleRouter = require("./routes/vehicleRoutes");
+const marketplaceRouter = require("./routes/marketPlaceRoutes");
 
 app.use(express.raw());
 app.use(bodyParser.urlencoded({ extended: true })); // to support URL
@@ -27,7 +28,7 @@ app.get("/", (req, res) => {
 app.use("/auth", authRouter);
 app.use("/vehiclePart", vehiclePartRouter);
 app.use("/vehicle", vehicleRouter);
-
+app.use("/marketplace",marketplaceRouter);
 app.use("/appointments", bookingRoutes);
 
 // Connect to the database and start the server

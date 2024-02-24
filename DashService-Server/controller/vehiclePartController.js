@@ -5,12 +5,23 @@ async function addVehiclePart(req, res) {
     if (!(body.name && body.description)) {
         res.status(400).send("All inputs are required");
     }
+
+    try{
     const vehiclePart = await VehiclePartsModel.create({
         name: body.name,
         description: body.description,
-        photoUrl: body.photoUrl
+        photoUrl: body.photoUrl,
+        price: body.price,
+        category: body.category,
+        amount: body.amount
     });
     res.status(201).send(vehiclePart);
+    }
+    catch(error){
+        res.status(500).send({
+            message:error.message
+        });
+    }
 }
 async function getAllVehiclePart(req, res) {
     const allVehicleParts = await VehiclePartsModel.find({});
