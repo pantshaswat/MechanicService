@@ -20,6 +20,7 @@ const authRouter = require('./routes/authRoutes')
 const vehiclePartRouter = require('./routes/vehiclePartRoutes')
 const vehicelRouter = require('./routes/vehicleRoutes')
 const notificationRouter = require('./routes/notificationRoutes');
+const marketplaceRouter = require("./routes/marketPlaceRoutes");
 
 app.use(express.raw());
 app.use(bodyParser.urlencoded({ extended: true })); // to support URL
@@ -40,7 +41,7 @@ app.get("/:id", (req, res) => {
 app.use("/auth",authRouter)
 app.use("/vehiclePart",vehiclePartRouter)
 app.use("/vehicle",vehicelRouter)
-
+app.use("/marketplace",marketplaceRouter);
 app.use("/appointments", appointmentsRoutes);
 app.use("/notifications", notificationRouter);
 

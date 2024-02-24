@@ -3,6 +3,7 @@ const { Schema } = mongoose;
 
 const userSchema = new Schema({
 <<<<<<< HEAD
+<<<<<<< HEAD
     fullName: {
         type: String,
         required: true,
@@ -25,6 +26,13 @@ const userSchema = new Schema({
         enum:["ClientUser", "ServiceProvider","Admin"]
     }
 =======
+=======
+  userId :{
+    type:mongoose.Schema.Types.ObjectId,
+    required:true,
+    default:new mongoose.Types.ObjectId,
+    },
+>>>>>>> marketplace
   fullName: {
     type: String,
     required: true,
