@@ -38,8 +38,36 @@ exports.viewAppointments = async (req, res) => {
   }
 };
 
-exports.requestRoadsideAssistance = (req, res) => {
-  // Implementation for requesting roadside assistance
-  // Implement the logic to handle the roadside assistance request
-  res.json({ message: "Roadside assistance requested successfully" });
+exports.viewAppointmentsAll = async (req, res) => {
+  try {
+    const allBookings = await Booking.find();
+
+    return res.status(200).json({ success: true, bookings: allBookings });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ success: false, error: "Internal Server Error" });
+  }
+};
+
+exports.requestRoadsideAssistance = async (req, res) => {
+  try {
+    const { userId, description, location } = req.body;
+
+    // Assuming you have a model named RoadsideAssistanceRequest
+    const newRoadsideRequest = await RoadsideAssistanceRequest.create({
+      userId,
+      description,
+      location,
+      status: "Pending", // You can set an initial status
+    });
+
+    return res.status(201).json({ success: true, request: newRoadsideRequest });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ success: false, error: "Internal Server Error" });
+  }
 };

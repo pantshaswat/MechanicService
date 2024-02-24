@@ -32,7 +32,7 @@ const userSchema = new Schema({
     required:true,
     default:new mongoose.Types.ObjectId,
     },
->>>>>>> fc13e51837ed45def28968756f852dc5968b339e
+>>>>>>> marketplace
   fullName: {
     type: String,
     required: true,
@@ -52,9 +52,10 @@ const userSchema = new Schema({
   },
   role: {
     type: String,
-    enum: ["User", "ServiceCenter", "Admin"],
+    enum: ["ClientUser", "ServiceProvider", "Admin"],
   },
+>>>>>>> 754a1ccb256ec7cf932cd7629d337c7b20534721
 });
 
-const userModel = mongoose.model("User", userSchema);
+const userModel = mongoose.model("users", userSchema);
 module.exports = userModel;

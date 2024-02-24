@@ -1,14 +1,7 @@
 const mongoose = require("mongoose");
 
 const ServiceCenterModel = new mongoose.Schema({
-  // Define your schema fields here
 
-  centerid: {
-    type: mongoose.Schema.Types.objectId,
-    required: true,
-    unique: true,
-    default: () => new mongoose.Types.ObjectId(),
-  },
   name: {
     type: String,
     required: true,
@@ -25,9 +18,8 @@ const ServiceCenterModel = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  // Add more fields as needed
 });
 
-const ServiceCenter = mongoose.model("ServiceCenterModel", ServiceCenterModel);
+const ServiceCenter = mongoose.model("ServiceCenter", ServiceCenterModel);
 
 module.exports = ServiceCenter;

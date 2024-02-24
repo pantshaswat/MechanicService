@@ -1,15 +1,10 @@
 const mongoose = require("mongoose");
 
 const vehicleSchema = new mongoose.Schema({
-  vehicleId: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
 
-    default: () => new mongoose.Types.ObjectId(),
-  },
-  userId: {
+  ownerUserId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "users",
     required: true,
   },
 
@@ -29,9 +24,13 @@ const vehicleSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  imageUrl:{
+    type: String,
+    default: ''
+  }
   // ... add more fields as needed
 });
 
-const Vehicle = mongoose.model("Vehicle", vehicleSchema);
+const VehicleModel = mongoose.model("Vehicle", vehicleSchema);
 
-module.exports = Vehicle;
+module.exports = VehicleModel;
