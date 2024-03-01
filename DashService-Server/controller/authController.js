@@ -45,7 +45,10 @@ async function signIn(req, res) {
 
   const token = createJwt(user);
   console.log(token);
-  return res.status(201).cookie("token", token).send("Logged in successfully");
+  return res.status(201).cookie("token", token,{
+    expires: new Date(Date.now() + 25892000000),
+    httpOnly : false
+  }).send("Logged in successfully");
 }
 async function signOut(req, res) {
   return res.status(201).clearCookie("token").send("logged out");

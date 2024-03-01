@@ -12,7 +12,7 @@ const Navbar = () => {
 
     return (
         <div className="flex justify-between items-center h-24 max-w-[1240px] mx-auto px-4 text-white">
-            <span className="w-full text-3xl font-bold text-[#0be9b1]">
+            <span className="w-full text-3xl font-bold text-[#f0f4f3]">
                 DashService
             </span>
             <ul className="hidden md:flex space-x-4">
