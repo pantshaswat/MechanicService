@@ -1,11 +1,31 @@
 
+
 import { Navigate, Outlet } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import HomePage from '../pages/homePage';
+import AdminDash from '../pages/adminDash';
+import {jwtDecode} from 'jwt-decode';
+
+
+function validateJwt(token){
+  const payload =  jwtDecode(token);
+  return payload;
+}
+
 const PrivateHomeRoute = ({ element }) => {
+
   const cookies = new Cookies();
   const isAuthenticated = cookies.get('token') !== undefined;
-
+  const token = cookies.get('token');
+  if(!token){
+    return<HomePage></HomePage>
+  }
+  const user = validateJwt(token);
+  if(user.role === 'Admin'){
+    return <AdminDash></AdminDash>
+  }
+  console.log(user)
+console.log(isAuthenticated);
   return isAuthenticated ? <Outlet /> : <HomePage />;
 };
 
