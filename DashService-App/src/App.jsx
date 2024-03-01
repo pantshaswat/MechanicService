@@ -1,32 +1,29 @@
-import { useState } from 'react'
-import './App.css'
-import AdminLogin from './pages/AdminLogin'
-
-import About from './pages/About'
-import ForgetPassword from './pages/ForgetPassword'
-import ActivationSuccess from './pages/ActivationSuccess'
-import Login from './pages/Login'
-import { Form } from 'react-router-dom';
-import UserForm from './pages/UserForm'
-import DetailsPage from './pages/DetailsPage'
-
-
+import './App.css';
+import AdminLogin from './pages/AdminLogin';
+import HomePage from './pages/homePage';
+import Login from './pages/Login';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import Cookies from 'universal-cookie';
+import {PrivateHomeRoute, PrivateLoginRoute} from './components/privateRoute';
+import UserDashPage from './pages/userDashPage';
 function App() {
-
   return (
-    <div className="flex items-center justify-center min-h-screen p-4">
+    <Router>
+      <Routes>
 
-    {/* // <AdminLogin/>
-    // <About/>
-    // <ForgetPassword/>
-    // <Navbar/>
-    // <ActivationSuccess/>
-    // <Login/> */}
-      {/* <UserForm/> */}
-      <DetailsPage/>
-    </div>
+      <Route exact path="/" element={<PrivateHomeRoute />} >
+        <Route exact path="/" element={<UserDashPage/>} />
+      </Route>
+      
+      <Route exact path="/login" element={<PrivateLoginRoute />} >
+        <Route exact path="/login" element={<Login/>} />
+      </Route>
 
-  )
+        
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;
