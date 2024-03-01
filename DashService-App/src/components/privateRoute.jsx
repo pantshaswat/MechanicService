@@ -1,11 +1,11 @@
 
 
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet,Routes, Route } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import HomePage from '../pages/homePage';
-import AdminDash from '../pages/adminDash';
 import {jwtDecode} from 'jwt-decode';
 import AdminPage from '../pages/AdminPage';
+import SimpleLayout from './SideBar';
 
 
 function validateJwt(token){
@@ -14,32 +14,51 @@ function validateJwt(token){
 }
 
 const PrivateHomeRoute = ({ element }) => {
-
   const cookies = new Cookies();
   const isAuthenticated = cookies.get('token') !== undefined;
   const token = cookies.get('token');
-  if(!token){
-    return<HomePage></HomePage>
+
+  if (!isAuthenticated || !token) {
+    return <HomePage />;
   }
+
   const user = validateJwt(token);
-  if (isAuthenticated) {
-    
-    if(user.role === 'Admin'){
-      return <AdminPage></AdminPage>
-    }
-  } else {
-    return <HomePage></HomePage>
-  }
-  console.log(user)
-console.log(isAuthenticated);
+
   return isAuthenticated ? <Outlet /> : <HomePage />;
 };
 
 const PrivateLoginRoute = ({ element }) => {
   const cookies = new Cookies();
   const isAuthenticated = cookies.get('token') !== undefined;
+  const token = cookies.get('token');
 
-  return isAuthenticated ? <Navigate to="/" replace /> :<Outlet /> ;
+  if (isAuthenticated && token) {
+    const user = validateJwt(token);
+    if (user.role === 'Admin') {
+      return <Navigate to="/admin" replace />;
+    } else {
+      return <Navigate to="/" replace />;
+    }
+  }
+
+  return <Outlet />;
+};
+const PrivateAdminRoute = ({ element }) => {
+  const cookies = new Cookies();
+  const isAuthenticated = cookies.get('token') !== undefined;
+  const token = cookies.get('token');
+
+  if (!isAuthenticated || !token) {
+    return <Navigate to="/" />;
+  }
+
+  const user = validateJwt(token);
+
+  if (isAuthenticated && user.role === 'Admin') {
+    return <AdminPage />;
+  }
+
+  return <Navigate to="/" />;
 };
 
-export {PrivateHomeRoute,PrivateLoginRoute};
+export { PrivateHomeRoute, PrivateLoginRoute, PrivateAdminRoute };
