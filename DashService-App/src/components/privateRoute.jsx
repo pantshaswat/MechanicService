@@ -5,6 +5,7 @@ import Cookies from 'universal-cookie';
 import HomePage from '../pages/homePage';
 import AdminDash from '../pages/adminDash';
 import {jwtDecode} from 'jwt-decode';
+import AdminPage from '../pages/AdminPage';
 
 
 function validateJwt(token){
@@ -21,8 +22,13 @@ const PrivateHomeRoute = ({ element }) => {
     return<HomePage></HomePage>
   }
   const user = validateJwt(token);
-  if(user.role === 'Admin'){
-    return <AdminDash></AdminDash>
+  if (isAuthenticated) {
+    
+    if(user.role === 'Admin'){
+      return <AdminPage></AdminPage>
+    }
+  } else {
+    return <HomePage></HomePage>
   }
   console.log(user)
 console.log(isAuthenticated);

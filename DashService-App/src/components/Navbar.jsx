@@ -17,7 +17,7 @@ const Navbar = () => {
             </span>
             <ul className="hidden md:flex space-x-4">
                 <span className="p-4">Home</span>
-                <Link to={'/service'} className="p-4">Service</Link>
+                <Link to={'/service'} className="p-4">Products</Link>
                 <span className="p-4">Help</span>
                 <Link to={'/about'} className="p-4">About</Link>
                 <span className="p-4">Profile</span>

@@ -8,11 +8,12 @@ export default function SimpleLayout() {
   const location = useLocation();
 
   const sidebarLinks = [
-    { to: '/', label: 'Home', icon: '🏠' },
     { to: '/dashboard', label: 'Dashboard', icon: '📊' },
-    { to: '/services', label: 'Services', icon: '🛠️' },
-    { to: '/appointments', label: 'Appointments', icon: '📅' },
-    { to: '/invoices', label: 'Invoices', icon: '💵' },
+    { to: '/users', label: 'Users', icon: '💵' },
+    { to: '/services', label: 'Users', icon: '🛠️' },
+      { to: '/servicecenter', label: 'Service Centers', icon: '📅' },//requests for service center
+    { to: '/notifications', label: 'Send Notifications', icon: '🛠️' },
+    
     // Add more links as needed
   ];
 

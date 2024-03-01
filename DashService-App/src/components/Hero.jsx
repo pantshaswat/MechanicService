@@ -7,12 +7,14 @@ const Hero = () => {
         backgroundImage: `url(${backgroundImageUrl})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        backdropFilter: 'blur(50px)',
+        //blur
+        backdropFilter: 'blur(4px)',
+        
         height: '100vh', // Set height to 100% of viewport height
     };
 
     return (
-        <div style={heroStyle} className="relative text-white">
+        <div style={heroStyle} className="relative text-white ">
             <div className="max-w-[800px] mx-auto text-center flex flex-col justify-center h-full">
                 <p className="text-lg md:text-xl font-bold p-2">
                     YOUR VEHICLE, OUR EXPERTS

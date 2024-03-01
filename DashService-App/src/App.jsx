@@ -31,7 +31,6 @@ function App() {
         
 
       <Route exact path="/" element={<PrivateHomeRoute />} >
-        <Route exact path="/" element={<HomePage/>} />
       </Route>
       
       <Route exact path="/login" element={<PrivateLoginRoute />} >
