@@ -1,6 +1,8 @@
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
+import FAQ from "./FAQ";
+import FeatureSection from "./FeatureSection";
 
 
 export default function HomePage(){
@@ -9,7 +11,8 @@ export default function HomePage(){
         <>
         <div>
                 <Navbar />
-                <Hero/>
+                <Hero />
+                <FeatureSection/>
                 <Footer/>
         </div>
        

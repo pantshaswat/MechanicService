@@ -11,31 +11,31 @@ const Navbar = () => {
     };
 
     return (
-        <div className="flex justify-between items-center h-24 max-w-[1240px] mx-auto px-4 text-white">
-            <span className="w-full text-3xl font-bold text-[#f0f4f3]">
+        <div className="flex justify-between items-center h-24 max-w-[1240px] mx-auto px-4 text-black">
+            <span className="w-full text-3xl font-bold text-[#575ec2]">
                 DashService
             </span>
             <ul className="hidden md:flex space-x-4">
                 <span className="p-4">Home</span>
-                <span className="p-4">Service</span>
+                <Link to={'/service'} className="p-4">Service</Link>
                 <span className="p-4">Help</span>
-                <span className="p-4">About</span>
+                <Link to={'/about'} className="p-4">About</Link>
                 <span className="p-4">Profile</span>
-                <span className="p-4">Admin</span>
-                <span className="p-4">Vendor</span>
+                {/* <span className="p-4">Admin</span>
+                <span className="p-4">Vendor</span> */}
                 <span className="p-4">Join</span>
-                <span
-                    className="p-4 text-center font-medium rounded-md w-24 px-3 text-black bg-[#00df9a] mr-5"
+                <Link to={'/register'}
+                    className="p-4 text-center font-medium rounded-md w-24 px-3 text-white bg-[#575ec2] mr-5"
                     style={{
                         height: '40px',
                         paddingTop: '9px',
                         marginTop: '6px',
                     }}
                 >
-                    SignUp
-                </span>
-                <span
-                    className="p-4 text-center font-medium rounded-md w-24 px-3 text-black bg-[#00df9a]"
+                    Register
+                </Link>
+                <Link to={'/login'}
+                    className="p-4 text-center font-medium rounded-md w-24 px-3 text-white bg-[#575ec2]"
                     style={{
                         height: '40px',
                         paddingTop: '9px',
@@ -43,7 +43,7 @@ const Navbar = () => {
                     }}
                 >
                     Login
-                </span>
+                </Link>
             </ul>
             <div onClick={handleNav} className="block md:hidden ">
                 {nav ? (
@@ -59,8 +59,8 @@ const Navbar = () => {
                         : 'ease-in-out duration-500 fixed left-[-100%]'
                 }
             >
-                <h1 className="w-full text-3xl font-bold text-[#00df9a] m-4">
-                    upKeep
+                <h1 className="w-full text-3xl font-bold text-[#575ec2] m-4">
+                    
                 </h1>
                 <span className="p-4 border-b border-gray-600">Home</span>
                 <span className="p-4 border-b border-gray-600">Services</span>

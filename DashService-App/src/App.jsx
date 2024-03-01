@@ -9,14 +9,25 @@ import {PrivateHomeRoute, PrivateLoginRoute} from './components/privateRoute';
 import UserDashPage from './pages/userDashPage';
 import Dashboard from './pages/Dashboard';
 import Register from './pages/Register';
+import SimpleSidebar from './components/SideBar';
+import SimpleLayout from './components/SideBar';
+import AdminPage from './pages/AdminPage';
+import DetailsPage from './pages/shop/DetailsPage';
+import Example from './pages/shop/PartsPage';
+import PartsPage from './pages/shop/PartsPage';
 function App() {
   return (
     <Router>
       <Routes>
-        <Route exact path={'/admin'}element={<HomePage/>}>
+        <Route exact path={'/admin'}element={<AdminPage/>}>
 
         </Route>
-        <Route exact path={'/register'} element={ <Register/>} />
+        
+        <Route exact path={'/register'} element={<Register />} />
+        <Route exact path={'/service'} element={<PartsPage />} />
+                        <Route exact path={'/details'} element={ <DetailsPage/>} />
+
+
         
 
       <Route exact path="/" element={<PrivateHomeRoute />} >
