@@ -1,4 +1,5 @@
 const userModel = require("../models/userModel");
+
 const md5 = require("md5");
 const { createJwt } = require("../middlewares/jwtAuthMiddleware");
 
@@ -85,5 +86,31 @@ async function count(req, res) {
     res.status(500).json({ error: "Internal Server Error" });
   }
 }
+async function submitRequest(req, res) {
+  try {
+    // Handle form data here
+    const formData = req.body;
+    console.log("Form Data:", formData);
 
-module.exports = { register, signIn, signOut, getAllUsers, count };
+    const ServiceCenterRequest = new serviceCenter(formData);
+    const result = await ServiceCenterRequest.save(); //save this in database
+    console.log("Database result:", result);
+
+    // You can perform further processing or store the data in a database
+
+    // Send a response back to the client
+    res.status(200).json({ message: "Form submitted successfully" });
+  } catch (error) {
+    console.error("Error submitting form:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+}
+
+module.exports = {
+  register,
+  signIn,
+  signOut,
+  getAllUsers,
+  count,
+  submitRequest,
+};

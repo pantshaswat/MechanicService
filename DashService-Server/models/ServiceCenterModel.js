@@ -1,11 +1,20 @@
 const mongoose = require("mongoose");
 
-const ServiceCenterModel = new mongoose.Schema({
+const serviceCenterModel = new mongoose.Schema({
   name: {
     type: String,
     required: true,
   },
   address: {
+    type: String,
+    required: true,
+  },
+  panCard: {
+    type: String,
+    required: true,
+  },
+
+  about: {
     type: String,
     required: true,
   },
@@ -15,14 +24,14 @@ const ServiceCenterModel = new mongoose.Schema({
   },
   rating: {
     type: Number,
-    required: true,
+    required: false,
   },
   status: {
     type: String,
-    required: true,
+    default: "false",
   },
 });
 
-const ServiceCenter = mongoose.model("ServiceCenter", ServiceCenterModel);
+const serviceCenter = mongoose.model("ServiceCenter", serviceCenterModel);
 
-module.exports = ServiceCenter;
+module.exports = serviceCenter;

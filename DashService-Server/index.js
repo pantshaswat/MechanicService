@@ -21,6 +21,7 @@ const vehiclePartRouter = require("./routes/vehiclePartRoutes");
 const vehicelRouter = require("./routes/vehicleRoutes");
 const notificationRouter = require("./routes/notificationRoutes");
 const marketplaceRouter = require("./routes/marketPlaceRoutes");
+const serviceCenter = require("./routes/serviceRoute");
 
 app.use(
   cors({
@@ -49,6 +50,7 @@ app.use("/vehicle", vehicelRouter);
 app.use("/marketplace", marketplaceRouter);
 app.use("/appointments", appointmentsRoutes);
 app.use("/notifications", notificationRouter);
+app.use("/serviceCenter", serviceCenter);
 
 // Connect to the database and start the server
 (async () => {

@@ -21,7 +21,7 @@ const userSchema = new Schema({
   },
   role: {
     type: String,
-    enum: ["ClientUser", "ServiceProvider", "Admin"],
+    enum: ["ClientUser", "serviceCenter", "Admin"],
   },
   notifications: {
     type: mongoose.Schema.Types.ObjectId,

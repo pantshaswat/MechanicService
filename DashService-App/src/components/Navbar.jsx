@@ -3,6 +3,7 @@ import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
 import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import {jwtDecode} from 'jwt-decode';
+import ShopCart from './shopCart';
 
 function validateJwt(token){
   const payload =  jwtDecode(token);
@@ -10,16 +11,33 @@ function validateJwt(token){
 }
 
 const Navbar = () => {
-     const cookies = new Cookies();
-  const isAuthenticated = cookies.get('token') !== undefined;
+    
+    
+    const [open, setOpen] = useState(false);
+    
+    const cookies = new Cookies();
+    const isAuthenticated = cookies.get('token') !== undefined;
     const token = cookies.get('token');
+        let user = null;
+
+    if (token) {
+        
+         user = validateJwt(token);
+    }
  
     const [nav, setNav] = useState(false);
     const navigate = useNavigate();
+    
 
     const handleNav = () => {
         setNav(!nav);
     };
+    const handleOpenCart = () => {
+        setOpen(true);
+    };
+    const handleCloseCart = () => {
+        setOpen(false);
+    }
 
     return (
         <div className="flex justify-between items-center h-24 max-w-[1240px] mx-auto px-4 text-black">
@@ -30,11 +48,21 @@ const Navbar = () => {
                 <Link to={'/'} className="p-4">Home</Link>
                 <Link to={'/service'} className="p-4">Products</Link>
                 <Link to={'/booking'} className="p-4">Booking</Link>
-                <Link to={'/about'} className="p-4">About</Link>
-                <span className="p-4">Profile</span>
+                {token && user.role  === 'serviceCenter' && (
+                    <Link to={'/createProduct'} className="p-4">Create</Link>
+                )}
+                <button
+                    onClick={handleOpenCart}
+                    className="p-4">Cart</button>
+
+                {/* <span className="p-4">Profile</span> */}
                 {/* <span className="p-4">Admin</span>
                 <span className="p-4">Vendor</span> */}
-                <Link to={'/join'} className="p-4">Join</Link>
+                                {token && user.role  === 'ClientUser' && (
+
+                    <Link to={'/join'} className="p-4">Join</Link>
+                )}
+
                 {!isAuthenticated ? (
   <>
     <Link
@@ -94,10 +122,21 @@ const Navbar = () => {
                 </h1>
                 <span className="p-4 border-b border-gray-600">Home</span>
                 <span className="p-4 border-b border-gray-600">Services</span>
-                <span className="p-4 border-b border-gray-600">Help</span>
-                <span className="p-4 border-b border-gray-600">About</span>
                 <span className="p-4">Become a vendor</span>
             </ul>
+             { open &&(
+                <ShopCart
+                    onClose={handleCloseCart}
+                    isOpen={handleOpenCart}
+                
+                />
+                
+            
+
+            )
+            
+            }
+            
         </div>
     );
 };
