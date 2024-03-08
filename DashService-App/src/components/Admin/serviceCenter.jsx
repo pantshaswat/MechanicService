@@ -5,7 +5,7 @@ import { useTable } from "react-table";
 import { Link } from "react-router-dom";
 import Sidebar from "../SideBar";
 
-const Users = () => {
+const ServiceCenter = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
@@ -36,11 +36,11 @@ const Users = () => {
         accessor: "hello",
         Cell: ({ value }) => (
           <>
-            
+            <Link to={`/users/edit/${value}`} className="btn btn-primary btn-sm mr-2">
+              Edit
+            </Link>
             <Link to={`/users/delete/${value}`} className="btn btn-danger btn-sm">
-              {/* delete button red */}
               Delete
-              
             </Link>
           </>
         ),
@@ -96,4 +96,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default ServiceCenter;

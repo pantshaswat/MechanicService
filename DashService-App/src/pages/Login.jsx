@@ -24,8 +24,12 @@ export default function Login() {
     e.preventDefault();
     axios(configuration)
     .then((result)=>{
-      console.log(result);
-      navigate('/');
+      if(result.data.role === 'Admin'){
+        navigate('/admin');
+      }
+      if(result.data.role === 'ClientUser'){
+        navigate('/');
+      }
     })
     .catch((error)=>{
       console.log(error)

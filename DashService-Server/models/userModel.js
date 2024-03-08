@@ -23,27 +23,9 @@ const userSchema = new Schema({
     type: String,
     enum: ["ClientUser", "ServiceProvider", "Admin"],
   },
-
-  fullName: {
-    type: String,
-    required: true,
-  },
-  password: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  email: {
-    type: String,
-    trim: true,
-  },
-  phoneNumber: {
-    type: [String],
-    trim: true,
-  },
-  role: {
-    type: String,
-    enum: ["ClientUser", "ServiceProvider", "Admin"],
+  notifications: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Notifications",
   },
 });
 

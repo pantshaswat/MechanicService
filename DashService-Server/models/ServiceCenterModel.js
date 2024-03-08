@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 
 const ServiceCenterModel = new mongoose.Schema({
-
   name: {
     type: String,
     required: true,
@@ -16,6 +15,10 @@ const ServiceCenterModel = new mongoose.Schema({
   },
   rating: {
     type: Number,
+    required: true,
+  },
+  status: {
+    type: String,
     required: true,
   },
 });

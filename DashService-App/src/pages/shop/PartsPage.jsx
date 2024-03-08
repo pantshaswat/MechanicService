@@ -25,7 +25,7 @@ const products = [
     color: 'Black',
   },
    {
-    id: 1,
+    id: 2,
     name: 'Basic Tee',
     href: '#',
     imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
@@ -33,7 +33,7 @@ const products = [
     price: '$35',
     color: 'Black',
   }, {
-    id: 1,
+    id: 3,
     name: 'Basic Tee',
     href: '#',
     imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
@@ -41,7 +41,7 @@ const products = [
     price: '$35',
     color: 'Black',
   }, {
-    id: 1,
+    id: 4,
     name: 'Basic Tee',
     href: '#',
     imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
@@ -73,7 +73,7 @@ export default function PartsPage() {
               <div className="mt-4 flex justify-between">
                 <div>
                   <h3 className="text-sm text-gray-700">
-                    <a href={product.href}>
+                    <a href={'/detailsPage'}>
                       <span aria-hidden="true" className="absolute inset-0" />
                       {product.name}
                     </a>

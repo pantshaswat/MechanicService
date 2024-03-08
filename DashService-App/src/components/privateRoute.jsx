@@ -1,13 +1,11 @@
 
 
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet,Routes, Route } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import HomePage from '../pages/homePage';
-import AdminDash from '../pages/adminDash';
 import {jwtDecode} from 'jwt-decode';
 import AdminPage from '../pages/AdminPage';
-import DetailsPage from '../pages/shop/DetailsPage';
-import UserDashPage from '../pages/userDashPage';
+import SimpleLayout from './SideBar';
 
 
 function validateJwt(token){
@@ -16,40 +14,51 @@ function validateJwt(token){
 }
 
 const PrivateHomeRoute = ({ element }) => {
-
   const cookies = new Cookies();
   const isAuthenticated = cookies.get('token') !== undefined;
   const token = cookies.get('token');
-  if(!token){
-    return<HomePage></HomePage>
-  }
-  const user = validateJwt(token);
-  if (isAuthenticated) {
-    
-    if(user.role === 'Admin'){
-      return <AdminPage></AdminPage>
-    }
-    else if (user.role == 'ClientUser') {
-      return <UserDashPage></UserDashPage>
-    }
-     else if (user.role == 'ServiceProvider') {
-      return <DetailsPage></DetailsPage>
-    }
 
-    
-  } else {
-    return <HomePage></HomePage>
+  if (!isAuthenticated || !token) {
+    return <HomePage />;
   }
-  console.log(user)
-console.log(isAuthenticated);
+
+  const user = validateJwt(token);
+
   return isAuthenticated ? <Outlet /> : <HomePage />;
 };
 
 const PrivateLoginRoute = ({ element }) => {
   const cookies = new Cookies();
   const isAuthenticated = cookies.get('token') !== undefined;
+  const token = cookies.get('token');
 
-  return isAuthenticated ? <Navigate to="/" replace /> :<Outlet /> ;
+  if (isAuthenticated && token) {
+    const user = validateJwt(token);
+    if (user.role === 'Admin') {
+      return <Navigate to="/admin" replace />;
+    } else {
+      return <Navigate to="/" replace />;
+    }
+  }
+
+  return <Outlet />;
+};
+const PrivateAdminRoute = ({ element }) => {
+  const cookies = new Cookies();
+  const isAuthenticated = cookies.get('token') !== undefined;
+  const token = cookies.get('token');
+
+  if (!isAuthenticated || !token) {
+    return <Navigate to="/" />;
+  }
+
+  const user = validateJwt(token);
+
+  if (isAuthenticated && user.role === 'Admin') {
+    return <AdminPage />;
+  }
+
+  return <Navigate to="/" />;
 };
 
-export {PrivateHomeRoute,PrivateLoginRoute};
+export { PrivateHomeRoute, PrivateLoginRoute, PrivateAdminRoute };

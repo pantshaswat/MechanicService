@@ -63,4 +63,27 @@ async function getAllUsers(req, res) {
   return res.status(200).send(users);
 }
 
-module.exports = { register, signIn, signOut, getAllUsers };
+async function count(req, res) {
+  try {
+    const totalCustomers = await userModel.countDocuments({
+      role: "ClientUser",
+    });
+    const totalVendors = await userModel.countDocuments({
+      role: "ServiceProvider",
+    });
+    // Add more counts as needed
+
+    const counts = {
+      totalCustomers,
+      totalVendors,
+      // Add more counts as needed
+    };
+
+    res.json(counts);
+  } catch (error) {
+    console.error("Error fetching counts:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+}
+
+module.exports = { register, signIn, signOut, getAllUsers, count };
