@@ -15,6 +15,7 @@ import AdminPage from './pages/AdminPage';
 import DetailsPage from './pages/shop/DetailsPage';
 import Example from './pages/shop/PartsPage';
 import PartsPage from './pages/shop/PartsPage';
+import Users from './components/Admin/users';
 function App() {
   return (
     <Router>
@@ -35,7 +36,10 @@ function App() {
       
       <Route exact path="/login" element={<PrivateLoginRoute />} >
         <Route exact path="/login" element={<Login/>} />
-      </Route>
+        </Route>
+        <Route exact path="/users" element={<Users />} />
+                <Route exact path="/dashboard" element={<AdminPage />} />
+
 
         
       </Routes>

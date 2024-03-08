@@ -6,6 +6,8 @@ import HomePage from '../pages/homePage';
 import AdminDash from '../pages/adminDash';
 import {jwtDecode} from 'jwt-decode';
 import AdminPage from '../pages/AdminPage';
+import DetailsPage from '../pages/shop/DetailsPage';
+import UserDashPage from '../pages/userDashPage';
 
 
 function validateJwt(token){
@@ -27,6 +29,14 @@ const PrivateHomeRoute = ({ element }) => {
     if(user.role === 'Admin'){
       return <AdminPage></AdminPage>
     }
+    else if (user.role == 'ClientUser') {
+      return <UserDashPage></UserDashPage>
+    }
+     else if (user.role == 'ServiceProvider') {
+      return <DetailsPage></DetailsPage>
+    }
+
+    
   } else {
     return <HomePage></HomePage>
   }
