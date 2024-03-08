@@ -10,6 +10,10 @@ import ServiceCenter from '../components/Admin/serviceCenter';
 import Login from './Login';
 
 const AdminPage = () => {
+
+	
+
+	
   	return (
 		<div className="bg-neutral-100 h-screen w-screen overflow-hidden flex flex-row">
 			<Sidebar />
@@ -21,7 +25,8 @@ const AdminPage = () => {
           <Route path="/services" element={<ServiceReq/>} />
           <Route path="/users" element={<Users/>} />
 						<Route path="/notifications" element={<NotificationScreen />} />
-
+						{/* //logout button */}
+						
 						
 						
 						

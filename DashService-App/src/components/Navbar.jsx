@@ -1,8 +1,19 @@
 import React, { useState } from 'react';
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
 import { Link, useNavigate } from 'react-router-dom';
+import Cookies from 'universal-cookie';
+import {jwtDecode} from 'jwt-decode';
+
+function validateJwt(token){
+  const payload =  jwtDecode(token);
+  return payload;
+}
 
 const Navbar = () => {
+     const cookies = new Cookies();
+  const isAuthenticated = cookies.get('token') !== undefined;
+    const token = cookies.get('token');
+ 
     const [nav, setNav] = useState(false);
     const navigate = useNavigate();
 
@@ -16,34 +27,53 @@ const Navbar = () => {
                 DashService
             </span>
             <ul className="hidden md:flex space-x-4">
-                <span className="p-4">Home</span>
+                <Link to={'/'} className="p-4">Home</Link>
                 <Link to={'/service'} className="p-4">Products</Link>
-                <span className="p-4">Help</span>
+                <Link to={'/booking'} className="p-4">Booking</Link>
                 <Link to={'/about'} className="p-4">About</Link>
                 <span className="p-4">Profile</span>
                 {/* <span className="p-4">Admin</span>
                 <span className="p-4">Vendor</span> */}
-                <span className="p-4">Join</span>
-                <Link to={'/register'}
-                    className="p-4 text-center font-medium rounded-md w-24 px-3 text-white bg-[#575ec2] mr-5"
-                    style={{
-                        height: '40px',
-                        paddingTop: '9px',
-                        marginTop: '6px',
-                    }}
-                >
-                    Register
-                </Link>
-                <Link to={'/login'}
-                    className="p-4 text-center font-medium rounded-md w-24 px-3 text-white bg-[#575ec2]"
-                    style={{
-                        height: '40px',
-                        paddingTop: '9px',
-                        marginTop: '6px',
-                    }}
-                >
-                    Login
-                </Link>
+                <Link to={'/join'} className="p-4">Join</Link>
+                {!isAuthenticated ? (
+  <>
+    <Link
+      to="/register"
+      className="p-4 text-center font-medium rounded-md w-24 px-3 text-white bg-[#575ec2] mr-5"
+      style={{
+        height: '40px',
+        paddingTop: '9px',
+        marginTop: '6px',
+      }}
+    >
+      Register
+    </Link>
+    <Link
+      to="/login"
+      className="p-4 text-center font-medium rounded-md w-24 px-3 text-white bg-[#575ec2]"
+      style={{
+        height: '40px',
+        paddingTop: '9px',
+        marginTop: '6px',
+      }}
+    >
+      Login
+    </Link>
+  </>
+) : (
+  <Link
+    to="/login"
+    className="p-4 text-center font-medium rounded-md w-24 px-3 text-white bg-[#575ec2]"
+    style={{
+      height: '40px',
+      paddingTop: '9px',
+      marginTop: '6px',
+    }}
+  >
+    Logout
+  </Link>
+)}
+
             </ul>
             <div onClick={handleNav} className="block md:hidden ">
                 {nav ? (

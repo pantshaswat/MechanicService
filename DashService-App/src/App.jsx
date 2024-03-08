@@ -16,6 +16,9 @@ import DetailsPage from './pages/shop/DetailsPage';
 import Example from './pages/shop/PartsPage';
 import PartsPage from './pages/shop/PartsPage';
 import Users from './components/Admin/users';
+import ServiceCenterRegistrationForm from './pages/JoinForm';
+import BookingPage from './pages/booking';
+import ShopCart from './components/shopCart';
 function App() {
   return (
     <Router>
@@ -34,8 +37,18 @@ function App() {
         </Route>
         <Route exact path="/detailsPage" element={<DetailsPage />} />
 
+        <Route exact path="/join" element={<ServiceCenterRegistrationForm />} />
+        <Route exact path="/booking" element={<BookingPage />} />
+        
+                <Route exact path="/cart" element={<ShopCart />} />
+
+
+
+
+
         
       </Routes>
+
     </Router>
   );
 }

@@ -9,6 +9,7 @@ router.post("/book", bookingsController.bookAppointment);
 // GET /appointments/view/:userId
 router.get("/view/:userId", bookingsController.viewAppointments);
 router.get("/view", bookingsController.viewAppointmentsAll);
+router.get("/getAllServiceProvider", bookingsController.getAllServiceProviders);
 
 // POST /roadside-assistance/request
 router.post(

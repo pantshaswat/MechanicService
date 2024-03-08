@@ -1,5 +1,19 @@
 // controllers/appointmentsController.js
 const Booking = require("../models/bookingModel");
+const ServiceCenter = require("../models/serviceCenterModel");
+
+//fetch service providers
+exports.getAllServiceProviders = async (req, res) => {
+  try {
+    const serviceProviders = await ServiceCenter.find();
+    return res.status(200).json({ success: true, serviceProviders });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ success: false, error: "Internal Server Error" });
+  }
+};
 
 exports.bookAppointment = async (req, res) => {
   try {

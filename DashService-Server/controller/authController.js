@@ -51,7 +51,7 @@ async function signIn(req, res) {
       expires: new Date(Date.now() + 25892000000),
       httpOnly: false,
     })
-    .send("Logged in successfully");
+    .send(user);
 }
 async function signOut(req, res) {
   return res.status(201).clearCookie("token").send("logged out");
