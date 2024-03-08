@@ -18,7 +18,7 @@ function initializeSocketIO(server) {
                 io.to(userId[serviceCenterId]).emit('bookedServiceCenter',msg)
             }
             else{
-                console.log('center not found');
+                console.log('center not online');
             }
             
         })
@@ -31,6 +31,13 @@ function initializeSocketIO(server) {
                 console.log('center not found');
             }
             
+        });
+
+        socket.on('adminToUser',(notification)=>{
+            const id = notification.userId;
+            if(id in userId){
+                io.to(userId[id]).emit('adminNotification',notification);
+            }
         })
     });
 }

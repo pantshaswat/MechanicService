@@ -23,8 +23,10 @@ export default function Login() {
   const handleSubmit = (e)=>{
     e.preventDefault();
     axios(configuration)
-    .then((result)=>{
-      if(result.data.role === 'Admin'){
+      .then((result) => {
+        console.log(result);
+        if (result.data.role === 'Admin') {
+        console.log('Admin')
         navigate('/admin');
       }
       if(result.data.role === 'ClientUser'){
