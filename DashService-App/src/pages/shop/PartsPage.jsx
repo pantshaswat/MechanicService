@@ -46,7 +46,7 @@ export default function PartsPage() {
 
   return (
     <>
-      <Navbar />
+    
       <div className="bg-white">
         <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900">Vehicle Parts</h2>
@@ -56,7 +56,7 @@ export default function PartsPage() {
               <div key={product._id} className="group relative">
                 <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                   <img
-                    src={product.photoUrl}
+                    src={`http://localhost:3000/${product.photoUrl}`}
                     alt={product.imageAlt}
                     className="h-full w-full object-cover object-center lg:h-full lg:w-full"
                   />

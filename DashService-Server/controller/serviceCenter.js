@@ -2,7 +2,18 @@ const serviceCenter = require("../models/serviceCenterModel");
 const userModel = require("../models/userModel");
 const ObjectId = require("mongoose").Types.ObjectId;
 
-async function submitRequest(req, res) {
+//get service center
+async function getAllServiceCenter(req, res) {
+  console.log("Getting service center");
+  try {
+    const center = await serviceCenter.find();
+    res.status(200).send(center);
+  } catch (error) {
+    console.error("Error getting service center:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+}
+async function approveServiceCenter(req, res) {
   const user_id = req.params._id;
   try {
     const user = await userModel.findOne({ _id: new ObjectId(user_id) });
@@ -14,6 +25,20 @@ async function submitRequest(req, res) {
       { _id: new ObjectId(user_id) },
       { role: "serviceCenter" }
     );
+    const center = await serviceCenter.findOne({ ownerUserId: user_id });
+    await serviceCenter.updateOne(
+      { ownerUserId: new ObjectId(user_id) },
+      { status: "true" }
+    );
+    res.status(200).send("Service center approved");
+  } catch (e) {
+    res.status(500).send(e.message);
+  }
+}
+
+async function submitRequest(req, res) {
+  const user_id = req.params._id;
+  try {
     // await userModel.findByIdAndUpdate(
     //   user_id,
     //   { role: "serviceCenter" },
@@ -26,7 +51,16 @@ async function submitRequest(req, res) {
     //   }
     // );
     // Handle form data here
-    const formData = req.body;
+    const data = req.body;
+    const formData = {
+      ownerUserId: user_id,
+      name: data.name,
+      address: data.address,
+      panCard: data.panCard,
+      about: data.about,
+      phoneNumber: data.phoneNumber,
+    };
+
     console.log("Form Data:", formData);
 
     const ServiceCenterRequest = new serviceCenter(formData);
@@ -42,4 +76,4 @@ async function submitRequest(req, res) {
     res.status(500).json({ error: "Internal Server Error" });
   }
 }
-module.exports = { submitRequest };
+module.exports = { submitRequest, approveServiceCenter, getAllServiceCenter };

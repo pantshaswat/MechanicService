@@ -4,6 +4,7 @@ import {useNavigate} from 'react-router-dom';
 import Dashboard from '../components/Admin/Dashboard';
 import ShopCart from '../components/shopCart';
 import PartsPage from './shop/PartsPage';
+import Navbar from '../components/Navbar';
 
 export default function UserDashPage(){
     const cookies = new Cookies();
@@ -14,13 +15,12 @@ const handleLogOut = ()=>{
     navigate('/login');
 }
    return (<>
-    <div>
+       <div>
+           <Navbar></Navbar>
            <PartsPage/>
           {/* <ShopCart/> */}
            
     </div>
-    <button onClick={handleLogOut}>
-            Logout
-        </button>
+  
     </>)
 }

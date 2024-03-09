@@ -1,20 +1,35 @@
 import { Fragment, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
+import DialogBox from './DialogBox';
 
 
 
 
 export default function ShopCart({isOpen,onClose}) {
   const [open, setOpen] = useState(true);
-    const [products, setProduct] = useState([]);
+  const [products, setProduct] = useState([]);
+  const [dialogOpen,setDialogOpen] = useState(false);
+   const handleDialogOpen = () => {
+        setDialogOpen(true);
+    };
 
     useEffect(() => {
     // Fetch cart items from localStorage
-    const storedCartItems = JSON.parse(localStorage.getItem('cart')) || [];
+      const storedCartItems = JSON.parse(localStorage.getItem('cart')) || [];
+      
       setProduct(storedCartItems);
       
-  }, []);
+    }, []);
+  
+  //remove item from cart
+  const removeItem = (id) => {
+    const updatedCart = products.filter((product) => product._id !== id);
+    setProduct(updatedCart);
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
+  };
+    const totalAmount = products.reduce((total, product) => total + parseFloat(product.price), 0);
+
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -68,7 +83,8 @@ export default function ShopCart({isOpen,onClose}) {
                               <li key={product._id} className="flex py-6">
                                 <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                                   <img
-                                    src={product.photoUrl}
+                                    src={`
+                                    http://localhost:3000/${product.photoUrl}`}
                                     alt={product.imageAlt}
                                     className="h-full w-full object-cover object-center"
                                   />
@@ -82,14 +98,15 @@ export default function ShopCart({isOpen,onClose}) {
                                       </h3>
                                       <p className="ml-4">{product.price}</p>
                                     </div>
-                                    <p className="mt-1 text-sm text-gray-500">{product.color}</p>
+                                    <p className="mt-1 text-sm text-blue-500">{product.category}</p>
                                   </div>
                                   <div className="flex flex-1 items-end justify-between text-sm">
-                                    <p className="text-gray-500">Qty {product.quantity}</p>
+                                    <p className="text-gray-500"> {product.description}</p>
 
                                     <div className="flex">
                                       <button
                                         type="button"
+                                        onClick={()=>removeItem(product._id)}
                                         className="font-medium text-indigo-600 hover:text-indigo-500"
                                       >
                                         Remove
@@ -107,30 +124,20 @@ export default function ShopCart({isOpen,onClose}) {
                     <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
                       <div className="flex justify-between text-base font-medium text-gray-900">
                         <p>Subtotal</p>
-                        <p>$262.00</p>
+                        <p>Rs {totalAmount} </p>
                       </div>
                       <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
                       <div className="mt-6">
-                        <a
-                          href="#"
+                        <button
+                          onClick={
+                            handleDialogOpen
+                          }
                           className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
                         >
                           Checkout
-                        </a>
+                        </button>
                       </div>
-                      <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
-                        <p>
-                          or{' '}
-                          <button
-                            type="button"
-                            className="font-medium text-indigo-600 hover:text-indigo-500"
-                            onClick={() => setOpen(false)}
-                          >
-                            Continue Shopping
-                            <span aria-hidden="true"> &rarr;</span>
-                          </button>
-                        </p>
-                      </div>
+
                     </div>
                   </div>
                 </Dialog.Panel>
@@ -138,6 +145,16 @@ export default function ShopCart({isOpen,onClose}) {
             </div>
           </div>
         </div>
+        {dialogOpen && (
+          <DialogBox
+          
+                
+          />
+                
+            
+
+        )
+        }
       </Dialog>
     </Transition.Root>
   )

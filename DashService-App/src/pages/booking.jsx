@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import axios from 'axios';
-
+import { useNavigate } from 'react-router-dom';
 const BookingPage = () => {
     
    const dummyServiceCenters = [
     {
-      id: 1,
+      id: '65ec149150c84da547cf99a0',
       name: 'Service Center 1',
       location: '123 Main St, Cityville',
       services: 'Repair, Maintenance, Inspection',
@@ -31,17 +31,20 @@ const BookingPage = () => {
     },
   ];
   const dummyVehicles = [
-    { id: '101', model: 'Car A' },
-    { id: '102', model: 'Car B' },
-    { id: '103', model: 'Car C' },
+    { id: '65d72bbe3d32d88c3e241543', model: 'Car A' },
+    { id: '65d75c2918138cdf447f6f14', model: 'Car B' },
+    { id: '65d75c5f18138cdf447f6f17', model: 'Car C' },
   ];
 
   const [serviceCenters, setServiceCenters] = useState(dummyServiceCenters);
   const [selectedCenter, setSelectedCenter] = useState(null);
   const [formData, setFormData] = useState({
+    userId: '',
     description: '',
     vehicleId: '',
+    centerId:'',
     bookingSchedule: 'none',
+
   });
 
 //   useEffect(() => {
@@ -57,10 +60,26 @@ const BookingPage = () => {
 //     };
 
 //     fetchServiceCenters();
+  //   }, []);
+  //   useEffect(() => {
+//     const fetchServiceCenters = async () => {
+//       try {
+//         // Replace with your actual backend API endpoint
+//           const response = await axios.get('http://localhost:3000/appointments/view');
+//           console.log(response.data)
+//         setServiceCenters(response.data);
+//       } catch (error) {
+//         console.error('Error fetching service centers:', error);
+//       }
+//     };
+
+//     fetchServiceCenters();
 //   }, []);
+
 
   const handleSelectCenter = (center) => {
     setSelectedCenter(center);
+
   };
 
   const handleChange = (e) => {
@@ -70,19 +89,45 @@ const BookingPage = () => {
       [name]: value,
     }));
   };
-
-  const handleBookService = () => {
+const navigate = useNavigate();
+  const handleBookService = async() => {
     // Add your booking logic here
     if (selectedCenter) {
       console.log('Booking service at:', selectedCenter);
       console.log('Booking details:', formData);
+
+      const bookingData = {
+        userId: '65d72bbe3d32d88c3e241543',
+        description: formData.description,
+        vehicleId: formData.vehicleId,
+        centerId: selectedCenter.id,
+        bookingSchedule: formData.bookingSchedule,
+
+         
+       
+      };
+
+      // Replace 'http://localhost:3000/your-backend-endpoint' with your actual backend endpoint
+      const response = await axios.post('http://localhost:3000/appointments/book', bookingData)
+      .then(response=>{
+    if(response.status === 201){
+      console.log(`Booked: ${response.data}`);
+      navigate('/');
+    }
+  })
+  .catch(error=>{
+    console.log(error)
+  })
+      // console.log('Booking successful:', response.data);
       // Reset selected center and form data after booking
-      setSelectedCenter(null);
-      setFormData({
-        description: '',
-        vehicleId: '',
-        bookingSchedule: 'none',
-      });
+      // setSelectedCenter(null);
+      // setFormData({
+      //   userId: '',
+      //   description: '',
+      //   vehicleId: '',
+      //   centerId:'',
+      //   bookingSchedule: 'none',
+      // });
     } else {
       alert('Please select a service center before booking.');
     }

@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
 
 const serviceCenterModel = new mongoose.Schema({
+  ownerUserId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "users",
+    required: true,
+  },
   name: {
     type: String,
     required: true,

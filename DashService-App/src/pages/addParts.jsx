@@ -16,7 +16,7 @@ function validateJwt(token){
 }
 
 
-export default function ServiceCenterRegistrationForm() {
+export default function AddVehiclePart() {
     const cookies = new Cookies();
 
   
@@ -27,11 +27,11 @@ export default function ServiceCenterRegistrationForm() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
-    about: '',
-    panCard: '',
-    email: '',
-    address: '',
-    phoneNumber: '',
+    description: '',
+    
+    price: 0,
+    category: 'Others',
+    amount: 0,
 
   });
 
@@ -42,6 +42,7 @@ export default function ServiceCenterRegistrationForm() {
 
 const handleSubmit = async (e) => {
   e.preventDefault();
+  
   sendDataToBackend(formData);
   //set a timer
   
@@ -53,9 +54,23 @@ const handleSubmit = async (e) => {
   
   };
   const sendDataToBackend = (data) => {
-  axios.post('http://localhost:3000/serviceCenter/submit/'+user._id,data)
-  .then(response=>{
-    if(response.status === 200){
+    const finalFormData = new FormData();
+  finalFormData.append('name', data.name);
+  finalFormData.append('description', data.description);
+  finalFormData.append('price', data.price);
+  finalFormData.append('amount', data.amount);
+  finalFormData.append('category', 'others');
+    
+    const imageInput = document.querySelector('input[type="file"]');
+  const imageFile = imageInput.files[0];
+  finalFormData.append('vehiclePartImage', imageFile);
+
+    axios.post("http://localhost:3000/vehiclePart/add", finalFormData, {
+  headers: {
+    "Content-Type": "multipart/form-data",
+  },
+}).then(response=>{
+    if(response.status === 201){
       console.log(`Request submitted: ${response.data}`);
       toast.success("Request submitted successfully, Wait for approval.")
   setTimeout(() => {
@@ -71,7 +86,7 @@ const handleSubmit = async (e) => {
   };
     return (<>
             <Navbar/>
-        <div className='pt-2 pl-16 pr-16 pb-10'>
+        <div className='pt-2 pl-28 pr-8 pb-10'>
         <form
       onSubmit={handleSubmit}
         >
@@ -83,7 +98,7 @@ const handleSubmit = async (e) => {
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div className="sm:col-span-4">
               <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
-                Business Name
+                Part Name
               </label>
               <div className="mt-2">
                 <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
@@ -94,7 +109,7 @@ const handleSubmit = async (e) => {
                         autoComplete="name"
                         onChange={handleInputChange}
                     className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                    placeholder="janesmith"
+                    placeholder="spark plug"
                   />
                 </div>
               </div>
@@ -102,12 +117,12 @@ const handleSubmit = async (e) => {
                 
             <div className="col-span-full">
               <label htmlFor="about" className="block text-sm font-medium leading-6 text-gray-900">
-                About
+                Description
               </label>
               <div className="mt-2">
                 <textarea
-                  id="about"
-                      name="about"
+                  id="description"
+                      name="description"
                                               onChange={handleInputChange}
 
                   rows={3}
@@ -115,27 +130,66 @@ const handleSubmit = async (e) => {
                   defaultValue={''}
                 />
               </div>
-              <p className="mt-3 text-sm leading-6 text-gray-600">Write a few sentences about service center.</p>
-            </div>
-  <div className="sm:col-span-4">
+                </div>
+                {/* //upload photo */}
+                <div className="sm:col-span-4">
+                  <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
+                    Photo
+                  </label>
+                  <div className="mt-2">
+                    <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                      <input
+                        type="file"
+                        name="vehiclePartImage"
+                        id="vehiclePartImage"
+                                                onChange={handleInputChange}
+
+                        autoComplete="photo"
+                        className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                      />
+                    </div>
+                  
+                  </div>
+                </div>
+            <div className="sm:col-span-4">
               <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
-                PAN number
+                Price
               </label>
               <div className="mt-2">
                 <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
                   <input
                     type="number"
-                    name="panCard"
-                        id="panCard"
+                    name="price"
+                        id="price"
                                                 onChange={handleInputChange}
 
                     autoComplete="number"
                     className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                    placeholder="12315"
+                    placeholder="Rs. 4000"
                   />
                 </div>
               </div>
                 </div>
+                  <div className="sm:col-span-4">
+              <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
+                Amount
+              </label>
+              <div className="mt-2">
+                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                  <input
+                    type="number"
+                    name="amount"
+                        id="amount"
+                                                onChange={handleInputChange}
+
+                    autoComplete="number"
+                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                    placeholder="3"
+                  />
+                </div>
+              </div>
+                </div>
+                
               
           
           
@@ -145,78 +199,10 @@ const handleSubmit = async (e) => {
         
               </div>
               
+              
         </div>
 
-        <div className="border-b border-gray-900/10 pb-12">
-          <h2 className="text-base font-semibold leading-7 text-gray-900">Personal Information</h2>
-          <p className="mt-1 text-sm leading-6 text-gray-600">Use a permanent address where you can receive mail.</p>
-
-          <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-            
-                   <div className="sm:col-span-4">
-              <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
-                Phone Number
-              </label>
-              <div className="mt-2">
-                <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                  <input
-                    type="number"
-                    name="phoneNumber"
-                        id="phoneNumber"
-                                                onChange={handleInputChange}
-
-                    autoComplete="number"
-                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                    placeholder="1234567890"
-                  />
-                </div>
-              </div>
-            </div>
-
-          
-
-            <div className="sm:col-span-4">
-              <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                Email address
-              </label>
-              <div className="mt-2">
-                <input
-                      id="email"
-                                              onChange={handleInputChange}
-
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-
-          
-
-         
-
-            <div className="sm:col-span-2 sm:col-start-1">
-              <label htmlFor="city" className="block text-sm font-medium leading-6 text-gray-900">
-                Address
-              </label>
-              <div className="mt-2">
-                <input
-                      type="text"
-                                              onChange={handleInputChange}
-
-                  name="address"
-                  id="address"
-                  autoComplete="address-level2"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-
-          
-          </div>
-        </div>
-
+       
       
       </div>
 

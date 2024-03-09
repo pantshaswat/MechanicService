@@ -29,7 +29,7 @@ export default function Login() {
         console.log('Admin')
         navigate('/admin');
       }
-      if(result.data.role === 'ClientUser'){
+      if(result.data.role === 'ClientUser' || result.data.role === 'serviceCenter'){
         navigate('/');
       }
     })

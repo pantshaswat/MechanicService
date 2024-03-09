@@ -18,7 +18,7 @@ const PORT = 3000;
 const appointmentsRoutes = require("./routes/bookingRoutes");
 const authRouter = require("./routes/authRoutes");
 const vehiclePartRouter = require("./routes/vehiclePartRoutes");
-const vehicelRouter = require("./routes/vehicleRoutes");
+const vehicleRouter = require("./routes/vehicleRoutes");
 const notificationRouter = require("./routes/notificationRoutes");
 const marketplaceRouter = require("./routes/marketPlaceRoutes");
 const serviceCenter = require("./routes/serviceRoute");
@@ -32,25 +32,18 @@ app.use(
 app.use(express.raw());
 app.use(bodyParser.urlencoded({ extended: true })); // to support URL
 app.use(bodyParser.json()); // to support JSON-encoded bodies
-app.use(cookieParser());
+app.use(cookieParser(null, { sameSite: "None" }));
 
 app.use(express.static(path.resolve("./public")));
 
-// for use of socket
-const home = fs.readFileSync("./index.html");
-
-// Define your route
-app.get("/:id", (req, res) => {
-  res.end(home);
-});
-
 app.use("/auth", authRouter);
-app.use("/vehiclePart", vehiclePartRouter);
-app.use("/vehicle", vehicelRouter);
-app.use("/marketplace", marketplaceRouter);
-app.use("/appointments", appointmentsRoutes);
-app.use("/notifications", notificationRouter);
-app.use("/serviceCenter", serviceCenter);
+
+app.use("/vehiclePart", checkForCookieAuth("token"), vehiclePartRouter);
+app.use("/vehicle", checkForCookieAuth("token"), vehicleRouter);
+app.use("/marketplace", checkForCookieAuth("token"), marketplaceRouter);
+app.use("/appointments", checkForCookieAuth("token"), appointmentsRoutes);
+app.use("/notifications", checkForCookieAuth("token"), notificationRouter);
+app.use("/serviceCenter", checkForCookieAuth("token"), serviceCenter);
 
 // Connect to the database and start the server
 (async () => {

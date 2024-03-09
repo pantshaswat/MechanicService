@@ -61,4 +61,18 @@ const PrivateAdminRoute = ({ element }) => {
   return <Navigate to="/" />;
 };
 
-export { PrivateHomeRoute, PrivateLoginRoute, PrivateAdminRoute };
+const PrivateServiceCenterRoute = ({ element }) => { 
+  const cookies = new Cookies();
+  const isAuthenticated = cookies.get('token') !== undefined;
+  const token = cookies.get('token');
+  if (!isAuthenticated || !token) {
+    return <Navigate to="/" />;
+  }
+  const user = validateJwt(token);
+  if (isAuthenticated && user.role === 'serviceCenter') {
+    return <Outlet />;
+  }
+  return <Navigate to="/" />;
+
+}
+export { PrivateHomeRoute, PrivateLoginRoute, PrivateAdminRoute ,PrivateServiceCenterRoute};

@@ -40,7 +40,7 @@ const Navbar = () => {
     }
 
     return (
-        <div className="flex justify-between items-center h-24 max-w-[1240px] mx-auto px-4 text-black">
+        <div className="flex justify-between items-center h-24 max-w-[1240px] mx-auto text-black">
             <span className="w-full text-3xl font-bold text-[#575ec2]">
                 DashService
             </span>
@@ -49,20 +49,19 @@ const Navbar = () => {
                 <Link to={'/service'} className="p-4">Products</Link>
                 <Link to={'/booking'} className="p-4">Booking</Link>
                 {token && user.role  === 'serviceCenter' && (
-                    <Link to={'/createProduct'} className="p-4">Create</Link>
+                    <Link to={'/createProduct'} className="p-4">Part</Link>
                 )}
-                <button
-                    onClick={handleOpenCart}
-                    className="p-4">Cart</button>
+                
 
                 {/* <span className="p-4">Profile</span> */}
                 {/* <span className="p-4">Admin</span>
                 <span className="p-4">Vendor</span> */}
                                 {token && user.role  === 'ClientUser' && (
-
+                    
                     <Link to={'/join'} className="p-4">Join</Link>
+                    
                 )}
-
+                 
                 {!isAuthenticated ? (
   <>
     <Link
@@ -89,18 +88,37 @@ const Navbar = () => {
     </Link>
   </>
 ) : (
-  <Link
-    to="/login"
-    className="p-4 text-center font-medium rounded-md w-24 px-3 text-white bg-[#575ec2]"
-    style={{
-      height: '40px',
-      paddingTop: '9px',
-      marginTop: '6px',
-    }}
-  >
-    Logout
-  </Link>
-)}
+  
+  token && user && (
+                <>
+                  <button
+                    onClick={handleOpenCart}
+                    className="p-4">Cart</button>
+                  <span className='pt-4'>👤</span>
+                  
+              <div className='pt-4 '>{user.fullName} </div>
+              {/* logout */}
+              <div
+                onClick={() => {
+                  cookies.remove('token');
+                  navigate('/');
+                }}
+                className="p-4 text-center font-medium rounded-md w-24 px-3 text-white bg-[#575ec2]"
+                style={{
+                  height: '40px',
+                  paddingTop: '9px',
+                  marginTop: '6px',
+                }}
+                >
+                Logout
+                </div>
+                
+                </>
+                
+                
+                
+                )
+                )}
 
             </ul>
             <div onClick={handleNav} className="block md:hidden ">
