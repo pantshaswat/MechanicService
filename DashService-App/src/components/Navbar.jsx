@@ -44,7 +44,7 @@ const Navbar = () => {
             <span className="w-full text-3xl font-bold text-[#575ec2]">
                 DashService
             </span>
-            <ul className="hidden md:flex space-x-4">
+            <ul className="hidden md:flex space-x-6">
                 <Link to={'/'} className="p-4">Home</Link>
                 <Link to={'/service'} className="p-4">Products</Link>
                 <Link to={'/booking'} className="p-4">Booking</Link>
@@ -86,6 +86,7 @@ const Navbar = () => {
     >
       Login
     </Link>
+    
   </>
 ) : (
   
@@ -97,6 +98,13 @@ const Navbar = () => {
                   <span className='pt-4'>👤</span>
                   
               <div className='pt-4 '>{user.fullName} </div>
+              
+              <Link className='pt-4' to={'/notifications'}>
+    <img className='rounded-full h-10 w-15' src='https://png.pngtree.com/png-clipart/20190705/original/pngtree-vector-notification-icon-png-image_4187244.jpg'>
+    </img>
+              </Link>
+              
+    
               {/* logout */}
               <div
                 onClick={() => {

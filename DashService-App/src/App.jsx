@@ -20,6 +20,7 @@ import ServiceCenterRegistrationForm from './pages/JoinForm';
 import BookingPage from './pages/booking';
 import ShopCart from './components/shopCart';
 import  AddVehiclePart from './pages/addParts';
+import NotificationPage from './pages/notificationPage';
 function App() {
   return (
     <Router>
@@ -45,6 +46,9 @@ function App() {
         
         <Route exact path="/createProduct" element={<PrivateServiceCenterRoute />} >
           <Route exact path="/createProduct" element={<AddVehiclePart />} />
+        </Route>
+        <Route exact path='/notifications' element= {<NotificationPage></NotificationPage>}>
+
         </Route>
 
 
