@@ -30,9 +30,10 @@ const NotificationScreen = () => {
         `http://localhost:3000/notifications/add`,
         {
           message: notification,
-          notificationType: "info", // Set the desired notification type
+          notificationType: typeOptions.label?? 'general', // Set the desired notification type
           metaData: {}, // Add any additional metadata as needed
-        }
+        },
+        {withCredentials: true}
       );
 
       if (response.status === 201) {
@@ -43,7 +44,7 @@ const NotificationScreen = () => {
         console.error('Failed to send notification:', response.data);
       }
     } catch (error) {
-      console.error('Error sending notification:', error.message);
+      console.error('Error sending notification:', error);
     }
   };
 

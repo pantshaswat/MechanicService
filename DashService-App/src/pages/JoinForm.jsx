@@ -53,7 +53,7 @@ const handleSubmit = async (e) => {
   
   };
   const sendDataToBackend = (data) => {
-  axios.post('http://localhost:3000/serviceCenter/submit/'+user._id,data)
+  axios.post('http://localhost:3000/serviceCenter/submit/'+user._id,data, {withCredentials: true})
   .then(response=>{
     if(response.status === 200){
       console.log(`Request submitted: ${response.data}`);

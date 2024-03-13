@@ -70,8 +70,9 @@ async function count(req, res) {
     const totalCustomers = await userModel.countDocuments({
       role: "ClientUser",
     });
+    console.log(totalCustomers);
     const totalVendors = await userModel.countDocuments({
-      role: "ServiceProvider",
+      role: "serviceCenter",
     });
     // Add more counts as needed
 

@@ -9,24 +9,31 @@ async function notifyAllUsers(req, res) {
     return res.status(400).send("Notification message required");
   }
   try {
-    const users = await userModel.find({});
-    if (!users) {
-      return res.status(404).send("No user found");
-    }
-    users.forEach(async (user) => {
-      const notification = await Notification.create({
-        receiverUser: user._id,
-        message: body.message,
-        isRead: false,
-        notificationType: body.notificationType,
-        metaData: body.metaData,
-      });
+    // Create a new notification
+    const notification = await Notification.create({
+      message: body.message,
+      notificationType: body.notificationType,
+      metaData: body.metaData,
     });
+
+    // Find all users
+    const users = await userModel.find({});
+    if (!users || users.length === 0) {
+      return res.status(404).send("No users found");
+    }
+
+    // Update each user to add the new notification to their notifications array
+    await Promise.all(users.map(async (user) => {
+      user.notifications.push(notification._id);
+      await user.save();
+    }));
+
     return res.status(201).send("Notification sent to all users");
-  } catch (e) {
-    return res.status(500).send(`Error adding notification ${e}`);
+  } catch (error) {
+    return res.status(500).send(`Error adding notification: ${error.message}`);
   }
 }
+
 
 async function postNotification(req, res) {
   const receiverUserId = req.params._id;
@@ -46,12 +53,13 @@ async function postNotification(req, res) {
 
   try {
     const notification = await Notification.create({
-      receiverUser: receiverUserId,
+     
       message: body.message,
       isRead: false,
       notificationType: body.notificationType,
       metaData: body.metaData,
     });
+    await userModel.updateOne({notifications: notification._id});
 
     return res.status(201).send(notification);
   } catch (e) {
@@ -78,11 +86,12 @@ async function getUserNotification(req, res) {
     return res.status(400).send("Invalid user");
   }
   try {
-    const notification = await Notification.find({ receiverUser: userId });
-    if (!notification) {
+    const notifications = await userModel.findOne({ _id: new ObjectId(userId) }).populate('notifications');
+    
+    if (!notifications) {
       return res.status(404).send("NO notification found");
     }
-    return res.status(201).send(notification);
+    return res.status(201).send(notifications);
   } catch (e) {
     return res.status(404).send(`Error finding notification ${e.message}`);
   }

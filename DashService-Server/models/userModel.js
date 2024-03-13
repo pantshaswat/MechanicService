@@ -24,9 +24,10 @@ const userSchema = new Schema({
     enum: ["ClientUser", "serviceCenter", "Admin"],
   },
   notifications: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: [mongoose.Schema.Types.ObjectId],
     ref: "Notifications",
   },
+
 });
 
 const userModel = mongoose.model("users", userSchema);

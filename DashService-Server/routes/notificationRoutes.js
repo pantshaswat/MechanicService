@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const authorizedTo = require('../middlewares/authorizationMiddleware');
 
 const {
   postNotification,
