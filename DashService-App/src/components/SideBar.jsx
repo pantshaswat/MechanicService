@@ -8,13 +8,13 @@ const linkClass =
 export default function Sidebar() {
   const location = useLocation();
   const navigate = useNavigate();
-      const cookies = new Cookies();
+  const cookies = new Cookies();
 
 
   const sidebarLinks = [
     { to: '/admin/', label: 'Dashboard', icon: '📊' },
     { to: '/admin/users', label: 'Users', icon: '💵' },
-    { to: '/admin/services', label: 'Service Center', icon: '🛠️' },
+    { to: '/admin/services', label: 'Service Center Request', icon: '🛠️' },
     { to: '/admin/notifications', label: 'Send Notifications', icon: '🔔' }, 
 
 
@@ -24,7 +24,7 @@ export default function Sidebar() {
   ];
 const handleLogOut = ()=>{
     cookies.remove('token');
-    navigate('/login');
+    navigate('/');
 }
   return (
     <div className="flex h-screen">

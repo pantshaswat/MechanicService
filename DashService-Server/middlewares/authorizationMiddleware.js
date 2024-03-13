@@ -1,7 +1,6 @@
 function authorizedTo(roles = []) {
   console.log("checking auth");
   return (req, res, next) => {
-    console.log(req.user);
     if (!req.user) {
       return res.status(404).send("User Not Found");
     }

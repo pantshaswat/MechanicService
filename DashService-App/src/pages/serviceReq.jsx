@@ -45,7 +45,7 @@ const SquareCard = () => {
 
   return (
     <div className="bg-white rounded-md shadow-md p-4 m-4">
-      <h3 className="text-xl font-semibold mb-2">Square Card</h3>
+      <h3 className="text-xl font-semibold mb-2">Service Center Requests</h3>
       {data ? (
         <div>
           {data.
@@ -76,7 +76,7 @@ const SquareCard = () => {
               </div>
             </div>
             ))}
-                    {data.filter((center) => center.status === true).length === 0 && <p>No approved service centers found.</p>}
+                    {data.filter((center) => center.status === true).length === 0 && <p>No service centers requests.</p>}
 
         </div>
       ) : (

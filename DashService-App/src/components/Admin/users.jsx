@@ -2,11 +2,13 @@
 import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { useTable } from "react-table";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Sidebar from "../SideBar";
 
 const Users = () => {
+  const navigate = useNavigate();
   const [users, setUsers] = useState([]);
+
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -25,6 +27,15 @@ const Users = () => {
     fetchUsers();
   }, []);
 
+ const handleUserDelete = async({_id})=>{
+    try {
+      await axios.delete(`http://localhost:3000/auth/delete/${_id}`, {withCredentials: true});
+      console.log('user deleted successfully')
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+    }
+  }
   const columns = useMemo(
     () => [
       { Header: "ID", accessor: "_id" },
@@ -34,14 +45,18 @@ const Users = () => {
       {
         Header: "Actions",
         accessor: "hello",
-        Cell: ({ value }) => (
+        Cell: ({ row }) => (
           <>
             
-            <Link to={`/users/delete/${value}`} className="btn btn-danger btn-sm">
+            <button onClick={()=> {
+              const _id = row.original._id
+             
+              handleUserDelete({_id: _id});
+              }} className="btn btn-danger btn-sm">
               {/* delete button red */}
               Delete
               
-            </Link>
+            </button>
           </>
         ),
       },

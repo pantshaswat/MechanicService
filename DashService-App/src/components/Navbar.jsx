@@ -101,6 +101,8 @@ const Navbar = () => {
               <div
                 onClick={() => {
                   cookies.remove('token');
+                  
+                  window.location.reload();
                   navigate('/');
                 }}
                 className="p-4 text-center font-medium rounded-md w-24 px-3 text-white bg-[#575ec2]"

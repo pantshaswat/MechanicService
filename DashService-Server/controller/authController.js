@@ -1,4 +1,5 @@
 const userModel = require("../models/userModel");
+const ObjectId = require("mongoose").Types.ObjectId;
 
 const md5 = require("md5");
 const { createJwt } = require("../middlewares/jwtAuthMiddleware");
@@ -106,6 +107,17 @@ async function submitRequest(req, res) {
   }
 }
 
+async function deleteUser(req,res){
+  try {
+    
+    const userId = req.params._id;
+    await userModel.deleteOne({_id: new ObjectId(userId)});
+    return res.send('User deleted successfully');
+  } catch (error) {
+    return res.send(`Error deleting user ${error}`);
+  }
+}
+
 module.exports = {
   register,
   signIn,
@@ -113,4 +125,5 @@ module.exports = {
   getAllUsers,
   count,
   submitRequest,
+  deleteUser
 };
