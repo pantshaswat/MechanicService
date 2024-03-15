@@ -2,42 +2,24 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+
+import Cookies from 'universal-cookie';
+import { jwtDecode } from 'jwt-decode';
+import HomePage from './homePage';
+
+function validateJwt(token){
+  const payload =  jwtDecode(token);
+  return payload;
+}
+
+
 const BookingPage = () => {
     
-   const dummyServiceCenters = [
-    {
-      id: '65ec149150c84da547cf99a0',
-      name: 'Service Center 1',
-      location: '123 Main St, Cityville',
-      services: 'Repair, Maintenance, Inspection',
-    },
-    {
-      id: 2,
-      name: 'Service Center 2',
-      location: '456 Broad St, Townsville',
-      services: 'Oil Change, Tire Rotation, Diagnostics',
-    },
-    {
-      id: 3,
-      name: 'Service Center 3',
-      location: '789 Center St, Villagetown',
-      services: 'Brake Service, Engine Tune-up, Alignment',
-    },
-    {
-      id: 4,
-      name: 'Service Center 4',
-      location: '101 Oak St, Countryside',
-      services: 'Battery Replacement, AC Repair, Transmission',
-    },
-  ];
-  const dummyVehicles = [
-    { id: '65d72bbe3d32d88c3e241543', model: 'Car A' },
-    { id: '65d75c2918138cdf447f6f14', model: 'Car B' },
-    { id: '65d75c5f18138cdf447f6f17', model: 'Car C' },
-  ];
+ 
 
-  const [serviceCenters, setServiceCenters] = useState(dummyServiceCenters);
+  const [serviceCenters, setServiceCenters] = useState([]);
   const [selectedCenter, setSelectedCenter] = useState(null);
+  const [v, setV] = useState([]);
   const [formData, setFormData] = useState({
     userId: '',
     description: '',
@@ -47,17 +29,52 @@ const BookingPage = () => {
 
   });
 
-//   useEffect(() => {
-//     const fetchServiceCenters = async () => {
-//       try {
-//         // Replace with your actual backend API endpoint
-//           const response = await axios.get('http://localhost:3000/appointments/view');
-//           console.log(response.data)
-//         setServiceCenters(response.data);
-//       } catch (error) {
-//         console.error('Error fetching service centers:', error);
-//       }
-//     };
+  useEffect(() => {
+      const cookies = new Cookies();
+  const isAuthenticated = cookies.get('token') !== undefined;
+const token = cookies.get('token');
+const user = validateJwt(token);
+
+  if (!isAuthenticated || !token) {
+    return <HomePage />
+  }
+
+
+    const fetchServiceCenters = async () => {
+      try {
+        // Replace with your actual backend API endpoint
+        const response = await axios.get('http://localhost:3000/appointments/getAllServiceProvider',
+        { withCredentials: true }
+        
+        
+        );
+        
+        console.log(response.data['serviceProviders'])
+        setServiceCenters(response.data['serviceProviders']);
+      } catch (error) {
+        console.error('Error fetching service centers:', error);
+      }
+    };
+      const fetchVehicles = async () => {
+      try {
+        // Replace with your actual backend API endpoint
+        const response = await axios.get(`http://localhost:3000/vehicle/byId/65d72bbe3d32d88c3e241543`,
+        { withCredentials: true }
+        
+        );
+        if (response.status === 400) {
+          console.log('Error fetching vehicles:', response.data);
+        }
+        console.log("fetched vehicles", response.data)
+        setV([response.data]);
+      } catch (error) {
+        console.error('Error fetching service centers:', error);
+      }
+    };
+    fetchVehicles();
+    fetchServiceCenters();
+    
+  },[]);
 
 //     fetchServiceCenters();
   //   }, []);
@@ -142,19 +159,24 @@ const navigate = useNavigate();
 
         {/* Service Center List */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {serviceCenters.map((center) => (
+          {serviceCenters && serviceCenters.map((center,index) => (
             <div
-              key={center.id}
+              key={center._id}
               className={`p-4 border rounded-md cursor-pointer ${
-                selectedCenter && selectedCenter.id === center.id
+                selectedCenter && selectedCenter._id === center._id
                   ? 'border-blue-500 bg-blue-100'
                   : 'border-gray-200 hover:border-blue-500 hover:bg-gray-50'
               }`}
               onClick={() => handleSelectCenter(center)}
             >
               <h3 className="text-lg font-semibold">{center.name}</h3>
-              <p className="text-sm text-gray-500">{center.location}</p>
+              
+              <p className="text-sm text-black">{center.about}</p>
+
+              <p className="text-sm text-gray-500">{center.address}</p>
               <p className="text-sm text-gray-500">{center.services}</p>
+                            <p className="text-sm text-gray-500">{center.phoneNumber}</p>
+
             </div>
           ))}
         </div>
@@ -164,8 +186,9 @@ const navigate = useNavigate();
           <div className="mt-8 p-4 border rounded-md">
             <h3 className="text-xl font-semibold mb-2">Selected Service Center</h3>
             <p>{selectedCenter.name}</p>
-            <p>{selectedCenter.location}</p>
-            <p>{selectedCenter.services}</p>
+            <p>{selectedCenter.address}</p>
+            <p>{selectedCenter.phoneNumber}</p>
+
           </div>
         )}
 
@@ -201,14 +224,16 @@ const navigate = useNavigate();
                 className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:border-blue-300"
                 required
               >
-                <option value="" disabled>
-                  Choose a vehicle
-                </option>
-                {dummyVehicles.map((vehicle) => (
-                  <option key={vehicle.id} value={vehicle.id}>
-                    {vehicle.model}
-                  </option>
-                ))}
+              <option value="" disabled>
+  Choose a vehicle
+</option>
+{v && v.map((vehicle) => (
+  <option key={vehicle._id} value={vehicle._id}>
+    {vehicle.model}
+  </option>
+
+))}
+
               </select>
             </div>
 

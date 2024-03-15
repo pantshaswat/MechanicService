@@ -43,7 +43,8 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-24 max-w-[1240px] mx-auto text-black">
             <span className="w-full text-3xl font-bold text-[#575ec2]">
                 DashService
-            </span>
+        </span>
+        
             <ul className="hidden md:flex space-x-6">
                 <Link to={'/'} className="p-4">Home</Link>
                 <Link to={'/service'} className="p-4">Products</Link>
@@ -97,12 +98,22 @@ const Navbar = () => {
                     className="p-4">Cart</button>
                   <span className='pt-4'>👤</span>
                   
-              <div className='pt-4 '>{user.fullName} </div>
+                  <div className='pt-4 '>{user.fullName} </div>
+                  
+                  {/* notification icon */}
+                  <div className='pt-4'>
+                      <Link
+      to="/notifications"
+      
+    >
+                      
+                    🔔
+    </Link>
+                  
+                  </div>
               
-              <Link className='pt-4' to={'/notifications'}>
-    <img className='rounded-full h-10 w-15' src='https://png.pngtree.com/png-clipart/20190705/original/pngtree-vector-notification-icon-png-image_4187244.jpg'>
-    </img>
-              </Link>
+
+
               
     
               {/* logout */}
@@ -139,19 +150,20 @@ const Navbar = () => {
                 )}
             </div>
             <ul
-                className={
-                    nav
-                        ? 'fixed left-0 top-0 w-[60%] h-full border-r border-r-gray-900 bg-[#000300] ease-in-out duration-500'
-                        : 'ease-in-out duration-500 fixed left-[-100%]'
-                }
-            >
-                <h1 className="w-full text-3xl font-bold text-[#575ec2] m-4">
-                    
-                </h1>
-                <span className="p-4 border-b border-gray-600">Home</span>
-                <span className="p-4 border-b border-gray-600">Services</span>
-                <span className="p-4">Become a vendor</span>
-            </ul>
+    className={
+        nav
+            ? 'fixed left-0 top-0 w-[60%] h-full border-r border-r-gray-900 bg-white ease-in-out duration-500 flex flex-col'
+            : 'ease-in-out duration-500 fixed left-[-100%]'
+    }
+>
+    <h1 className="w-full text-3xl font-bold text-[#575ec2] m-4">
+        
+    </h1>
+    <span className="p-4 border-b border-gray-600">Home</span>
+    <span className="p-4 border-b border-gray-600">Services</span>
+    <span className="p-4">Become a vendor</span>
+</ul>
+
              { open &&(
                 <ShopCart
                     onClose={handleCloseCart}

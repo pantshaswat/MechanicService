@@ -72,7 +72,11 @@ Confirm your Delivery
                   <button
                     type="button"
                     className="inline-flex w-full justify-center rounded-md bg-green-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-600 sm:ml-3 sm:w-auto"
-                    onClick={() => setOpen(false)}
+                    onClick={()=>{
+                      
+                      setOpen(false)
+                    }
+                    }
                   >
                     Confirm
                   </button>
