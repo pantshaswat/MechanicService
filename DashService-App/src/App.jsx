@@ -5,7 +5,7 @@ import Login from './pages/Login';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Cookies from 'universal-cookie';
-import {PrivateHomeRoute, PrivateLoginRoute,PrivateAdminRoute, PrivateServiceCenterRoute} from './components/privateRoute';
+import { PrivateHomeRoute, PrivateLoginRoute, PrivateAdminRoute, PrivateServiceCenterRoute } from './components/privateRoute';
 import UserDashPage from './pages/userDashPage';
 import Dashboard from './components/Admin/Dashboard';
 import Register from './pages/Register';
@@ -19,21 +19,22 @@ import Users from './components/Admin/users';
 import ServiceCenterRegistrationForm from './pages/JoinForm';
 import BookingPage from './pages/booking';
 import ShopCart from './components/shopCart';
-import  AddVehiclePart from './pages/addParts';
+import AddVehiclePart from './pages/addParts';
 import NotificationPage from './pages/notificationPage';
+import BookingRequest from './pages/bookingRequest';
 function App() {
   return (
     <Router>
       <Routes>
-      <Route exact path="/admin/*" element={<PrivateAdminRoute />} />
+        <Route exact path="/admin/*" element={<PrivateAdminRoute />} />
         <Route exact path="/register" element={<Register />} />
         <Route exact path="/service" element={<PartsPage />} />
         <Route exact path="/details" element={<DetailsPage />} />
 
         <Route exact path="/" element={<PrivateHomeRoute />} >
-        <Route exact path="/" element={<UserDashPage/>} />
+          <Route exact path="/" element={<UserDashPage />} />
         </Route>
-        
+
         <Route exact path="/login" element={<PrivateLoginRoute />} >
           <Route exact path="/login" element={<Login />} />
         </Route>
@@ -41,13 +42,13 @@ function App() {
 
         <Route exact path="/join" element={<ServiceCenterRegistrationForm />} />
         <Route exact path="/booking" element={<BookingPage />} />
-        
+        <Route exact path="/bookingRequest" element={<BookingRequest />} />
         <Route exact path="/cart" element={<ShopCart />} />
-        
+
         <Route exact path="/createProduct" element={<PrivateServiceCenterRoute />} >
           <Route exact path="/createProduct" element={<AddVehiclePart />} />
         </Route>
-        <Route exact path='/notifications' element= {<NotificationPage></NotificationPage>}>
+        <Route exact path='/notifications' element={<NotificationPage></NotificationPage>}>
 
         </Route>
 
@@ -56,7 +57,7 @@ function App() {
 
 
 
-        
+
       </Routes>
 
     </Router>

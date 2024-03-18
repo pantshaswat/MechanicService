@@ -22,7 +22,7 @@ const VehicleParts = new mongoose.Schema({
   category: {
     type: String,
     required: true,
-    enum: ["Engine", "Transmission", "Suspension", "Brakes", "Exhaust", "Electrical", "Interior", "Exterior","Others"],
+    enum: ["Engine", "Transmission", "Suspension", "Brakes", "Exhaust", "Electrical", "Interior", "Exterior", "Others"],
     default: "Others",
   },
   amount: {

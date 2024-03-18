@@ -35,30 +35,37 @@ exports.postToMarketplace = async (req, res) => {
 exports.buyItem = async (req, res) => {
   try {
     const { parts } = req.body;
+    console.log("Parts:", parts);
     for (const part of parts) {
-      const vehiclePart = await VehiclePartsModel.findById(part.part);
-      vehiclePart.amount -= part.amount;
-      await vehiclePart.save();
+      const vehiclePart = await VehiclePartsModel.findById(part["_id"]);
+      if (vehiclePart) {
+        vehiclePart.amount -= part["amount"];
+
+      }
       if (!vehiclePart) {
         return res.status(404).send("Vehicle part not found");
       }
-      if (vehiclePart.amount < part.amount) {
+      console.log("Vehicle part:", part);
+      if (vehiclePart["amount"] < part.amount) {
         return res.status(400).send({
           message: `Insufficient amount of ${vehiclePart.name}`,
         });
       }
+      await vehiclePart.save();
     }
     const order = new OrdersModel({
+      userId: req.user._id,
       parts: parts.map((part) => ({
-        part: part.part,
+        part: part,
         amount: part.amount,
       })),
     });
     await order.save();
-    res.send({
+    return res.send({
       message: "Order placed successfully",
       data: order,
     });
+
   } catch (error) {
     console.error("Error buying item:", error);
     res.status(500).send({

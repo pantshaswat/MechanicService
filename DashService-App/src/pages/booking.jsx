@@ -7,15 +7,15 @@ import Cookies from 'universal-cookie';
 import { jwtDecode } from 'jwt-decode';
 import HomePage from './homePage';
 
-function validateJwt(token){
-  const payload =  jwtDecode(token);
+function validateJwt(token) {
+  const payload = jwtDecode(token);
   return payload;
 }
 
 
 const BookingPage = () => {
-    
- 
+
+
 
   const [serviceCenters, setServiceCenters] = useState([]);
   const [selectedCenter, setSelectedCenter] = useState(null);
@@ -24,43 +24,43 @@ const BookingPage = () => {
     userId: '',
     description: '',
     vehicleId: '',
-    centerId:'',
+    centerId: '',
     bookingSchedule: 'none',
 
   });
 
   useEffect(() => {
-      const cookies = new Cookies();
-  const isAuthenticated = cookies.get('token') !== undefined;
-const token = cookies.get('token');
-const user = validateJwt(token);
+    const cookies = new Cookies();
+    const isAuthenticated = cookies.get('token') !== undefined;
+    const token = cookies.get('token');
+    const user = validateJwt(token);
 
-  if (!isAuthenticated || !token) {
-    return <HomePage />
-  }
+    if (!isAuthenticated || !token) {
+      return <HomePage />
+    }
 
 
     const fetchServiceCenters = async () => {
       try {
         // Replace with your actual backend API endpoint
         const response = await axios.get('http://localhost:3000/appointments/getAllServiceProvider',
-        { withCredentials: true }
-        
-        
+          { withCredentials: true }
+
+
         );
-        
+
         console.log(response.data['serviceProviders'])
         setServiceCenters(response.data['serviceProviders']);
       } catch (error) {
         console.error('Error fetching service centers:', error);
       }
     };
-      const fetchVehicles = async () => {
+    const fetchVehicles = async () => {
       try {
         // Replace with your actual backend API endpoint
         const response = await axios.get(`http://localhost:3000/vehicle/byId/65d72bbe3d32d88c3e241543`,
-        { withCredentials: true }
-        
+          { withCredentials: true }
+
         );
         if (response.status === 400) {
           console.log('Error fetching vehicles:', response.data);
@@ -73,25 +73,25 @@ const user = validateJwt(token);
     };
     fetchVehicles();
     fetchServiceCenters();
-    
-  },[]);
 
-//     fetchServiceCenters();
+  }, []);
+
+  //     fetchServiceCenters();
   //   }, []);
   //   useEffect(() => {
-//     const fetchServiceCenters = async () => {
-//       try {
-//         // Replace with your actual backend API endpoint
-//           const response = await axios.get('http://localhost:3000/appointments/view');
-//           console.log(response.data)
-//         setServiceCenters(response.data);
-//       } catch (error) {
-//         console.error('Error fetching service centers:', error);
-//       }
-//     };
+  //     const fetchServiceCenters = async () => {
+  //       try {
+  //         // Replace with your actual backend API endpoint
+  //           const response = await axios.get('http://localhost:3000/appointments/view');
+  //           console.log(response.data)
+  //         setServiceCenters(response.data);
+  //       } catch (error) {
+  //         console.error('Error fetching service centers:', error);
+  //       }
+  //     };
 
-//     fetchServiceCenters();
-//   }, []);
+  //     fetchServiceCenters();
+  //   }, []);
 
 
   const handleSelectCenter = (center) => {
@@ -106,8 +106,8 @@ const user = validateJwt(token);
       [name]: value,
     }));
   };
-const navigate = useNavigate();
-  const handleBookService = async() => {
+  const navigate = useNavigate();
+  const handleBookService = async () => {
     // Add your booking logic here
     if (selectedCenter) {
       console.log('Booking service at:', selectedCenter);
@@ -120,21 +120,26 @@ const navigate = useNavigate();
         centerId: selectedCenter.id,
         bookingSchedule: formData.bookingSchedule,
 
-         
-       
+
+
       };
 
       // Replace 'http://localhost:3000/your-backend-endpoint' with your actual backend endpoint
-      const response = await axios.post('http://localhost:3000/appointments/book', bookingData)
-      .then(response=>{
-    if(response.status === 201){
-      console.log(`Booked: ${response.data}`);
-      navigate('/');
-    }
-  })
-  .catch(error=>{
-    console.log(error)
-  })
+      const response = await axios.post('http://localhost:3000/appointments/book', bookingData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      })
+        .then(response => {
+          if (response.status === 201) {
+            console.log(`Booked: ${response.data}`);
+            navigate('/');
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
       // console.log('Booking successful:', response.data);
       // Reset selected center and form data after booking
       // setSelectedCenter(null);
@@ -159,23 +164,22 @@ const navigate = useNavigate();
 
         {/* Service Center List */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {serviceCenters && serviceCenters.map((center,index) => (
+          {serviceCenters && serviceCenters.map((center, index) => (
             <div
               key={center._id}
-              className={`p-4 border rounded-md cursor-pointer ${
-                selectedCenter && selectedCenter._id === center._id
+              className={`p-4 border rounded-md cursor-pointer ${selectedCenter && selectedCenter._id === center._id
                   ? 'border-blue-500 bg-blue-100'
                   : 'border-gray-200 hover:border-blue-500 hover:bg-gray-50'
-              }`}
+                }`}
               onClick={() => handleSelectCenter(center)}
             >
               <h3 className="text-lg font-semibold">{center.name}</h3>
-              
+
               <p className="text-sm text-black">{center.about}</p>
 
               <p className="text-sm text-gray-500">{center.address}</p>
               <p className="text-sm text-gray-500">{center.services}</p>
-                            <p className="text-sm text-gray-500">{center.phoneNumber}</p>
+              <p className="text-sm text-gray-500">{center.phoneNumber}</p>
 
             </div>
           ))}
@@ -224,15 +228,15 @@ const navigate = useNavigate();
                 className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:border-blue-300"
                 required
               >
-              <option value="" disabled>
-  Choose a vehicle
-</option>
-{v && v.map((vehicle) => (
-  <option key={vehicle._id} value={vehicle._id}>
-    {vehicle.model}
-  </option>
+                <option value="" disabled>
+                  Choose a vehicle
+                </option>
+                {v && v.map((vehicle) => (
+                  <option key={vehicle._id} value={vehicle._id}>
+                    {vehicle.model}
+                  </option>
 
-))}
+                ))}
 
               </select>
             </div>

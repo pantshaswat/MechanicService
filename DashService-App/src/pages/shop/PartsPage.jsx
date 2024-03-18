@@ -21,7 +21,7 @@ export default function PartsPage() {
 
     fetchProducts();
   }, []);
-  
+
 
 
   const handleAddToCart = (product) => {
@@ -31,9 +31,11 @@ export default function PartsPage() {
     // Check if the product is already in the cart
     const isProductInCart = existingCartItems.some((item) => item._id === product._id);
 
+    const modifedAmountto1 = { ...product, amount: 1 }
+
     if (!isProductInCart) {
       // If the product is not in the cart, add it
-      const updatedCart = [...existingCartItems, product];
+      const updatedCart = [...existingCartItems, modifedAmountto1];
 
       // Update local storage with the updated cart
       localStorage.setItem('cart', JSON.stringify(updatedCart));
@@ -46,7 +48,7 @@ export default function PartsPage() {
 
   return (
     <>
-    
+
       <div className="bg-white">
         <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900">Vehicle Parts</h2>
@@ -64,8 +66,8 @@ export default function PartsPage() {
                 <div className="mt-4 flex justify-between">
                   <div>
                     <h3 className="text-sm text-gray-700">
-                        {product.name}
-                     
+                      {product.name}
+
                     </h3>
                     <p className="mt-1 text-sm text-gray-500">Category: {product.category}</p>
                     <p className="mt-1 text-sm text-gray-500">{product.description}</p>
@@ -74,7 +76,7 @@ export default function PartsPage() {
                   <div>
                     <button className="flex flex-col items-center cursor-pointer" onClick={() => handleAddToCart(product)}>
                       <p className="text-sm font-medium text-gray-900 pb-8">{product.price}</p>
-                      
+
                       <FontAwesomeIcon icon={faShoppingCart} size="2x" />
                     </button>
                   </div>
@@ -84,7 +86,7 @@ export default function PartsPage() {
           </div>
         </div>
       </div>
-      <Toaster/>
+      <Toaster />
     </>
   );
 }
