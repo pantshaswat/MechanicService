@@ -40,17 +40,43 @@ const Navbar = () => {
   }
 
   return (
-    <div className="flex justify-between items-center h-24 max-w-[1240px] mx-auto text-black">
-      <span className="w-full text-3xl font-bold text-[#575ec2]">
+    <div style={{ 
+      position: 'relative', 
+      zIndex: 500, 
+      backgroundColor: '#4c4f9f', // Background color
+      color: 'white',
+      width: '100%',
+      display: 'flex', 
+      justifyContent: 'space-between', // Align items horizontally
+      alignItems: 'center' // Align items vertically
+    }} className="flex justify-between items-center h-24  mx-auto text-black ">
+      <span className="w-full text-white p-4 text-3xl font-bold text-[#575ec2]">
         DashService
       </span>
 
       <ul className="hidden md:flex space-x-6">
         <Link to={'/'} className="p-4">Home</Link>
-        <Link to={'/service'} className="p-4">Products</Link>
-        <Link to={'/booking'} className="p-4">Booking</Link>
+        {
+          token && user.role === 'serviceCenter' &&
+          (<Link to={'/bookingRequests'} className="p-4">Booking Requests</Link>)
+        }
+         {token && user.role === 'ClientUser' && (
+
+<Link to={'/booking'} className="p-4">Book</Link>
+
+)}
+{token && user.role === 'ClientUser' && (
+
+<Link to={'/roadSideRequest'} className="p-4">RoadSide Request</Link>
+
+)}
+{
+          token && user.role === 'serviceCenter' &&
+          (<Link to={'/roadSideRequests'} className="p-4">RoadSide Requests</Link>)
+        }
+        
         {token && user.role === 'serviceCenter' && (
-          <Link to={'/createProduct'} className="p-4">Part</Link>
+          <Link to={'/createProduct'} className="p-4">Add Part</Link>
         )}
 
 
@@ -93,9 +119,9 @@ const Navbar = () => {
 
           token && user && (
             <>
-              <button
+              <span
                 onClick={handleOpenCart}
-                className="p-4">Cart</button>
+                className="p-4">Cart</span>
               <span className='pt-4'>👤</span>
 
               <div className='pt-4 '>{user.fullName} </div>
@@ -142,7 +168,7 @@ const Navbar = () => {
         )}
 
       </ul>
-      <div onClick={handleNav} className="block md:hidden ">
+      <div onClick={handleNav}   className="block md:hidden ">
         {nav ? (
           <AiOutlineClose size={20} />
         ) : (
@@ -150,6 +176,13 @@ const Navbar = () => {
         )}
       </div>
       <ul
+      style={{ 
+      
+     
+        backgroundColor: '#4c4f9f', // Background color
+        
+        
+      }}
         className={
           nav
             ? 'fixed left-0 top-0 w-[60%] h-full border-r border-r-gray-900 bg-white ease-in-out duration-500 flex flex-col'
@@ -159,9 +192,117 @@ const Navbar = () => {
         <h1 className="w-full text-3xl font-bold text-[#575ec2] m-4">
 
         </h1>
-        <span className="p-4 border-b border-gray-600">Home</span>
-        <span className="p-4 border-b border-gray-600">Services</span>
-        <span className="p-4">Become a vendor</span>
+        <Link to={'/'} className="p-4 border-b border-gray-100">Home</Link>
+        {
+          token && user.role === 'serviceCenter' &&
+          (<Link to={'/bookingRequests'} className="p-4 border-b border-gray-100">Booking Requests</Link>)
+        }
+        {
+          token && user.role === 'serviceCenter' &&
+          (<Link to={'/roadSideRequests'} className="p-4 border-b border-gray-100">RoadSide Requests</Link>)
+        }
+        
+        {token && user.role === 'ClientUser' && (
+
+<Link to={'/booking'} className="p-4">Book</Link>
+
+)}
+{token && user.role === 'ClientUser' && (
+
+<Link to={'/roadSideRequest'} className="p-4 border-b border-gray-100">RoadSide Request</Link>
+
+)}
+        {token && user.role === 'serviceCenter' && (
+          <Link to={'/createProduct'} className="p-4 border-b border-gray-100">Part</Link>
+        )}
+
+
+        
+        {token && user.role === 'ClientUser' && (
+
+          <Link to={'/join'} className="p-4 border-b border-gray-100">Join</Link>
+
+        )}
+
+        {!isAuthenticated ? (
+          <>
+            <Link
+              to="/register"
+              className="p-4 border-b border-gray-100 text-center font-medium rounded-md w-24 px-3 text-white bg-[#575ec2] mr-5"
+              style={{
+                height: '40px',
+                paddingTop: '9px',
+                marginTop: '6px',
+              }}
+            >
+              Register
+            </Link>
+            <Link
+              to="/login"
+              className="p-4 border-b border-gray-100 text-center font-medium rounded-md w-24 px-3 text-white bg-[#575ec2]"
+              style={{
+                height: '40px',
+                paddingTop: '9px',
+                marginTop: '6px',
+              }}
+            >
+              Login
+            </Link>
+
+          </>
+        ) : (
+
+          token && user && (
+            <>
+              <span
+                onClick={handleOpenCart}
+                className="p-4 border-b border-gray-100">Cart</span>
+              <span className='pt-4'>👤</span>
+
+              <div className='pt-4 border-b border-gray-100'>{user.fullName} </div>
+
+              {/* notification icon */}
+              <div className='pt-4 border-b border-gray-100'>
+                <Link
+                  to="/notifications"
+
+                >
+
+                  🔔
+                </Link>
+
+              </div>
+
+
+
+
+
+              {/* logout */}
+              <div
+                onClick={() => {
+                  cookies.remove('token');
+
+                  window.location.reload();
+                  navigate('/');
+                }}
+                className="p-4 text-center font-medium rounded-md w-24 px-3 text-white bg-[#575ec2]"
+                style={{
+                  height: '40px',
+                  paddingTop: '9px',
+                  marginTop: '6px',
+                }}
+              >
+                Logout
+              </div>
+
+            </>
+
+
+
+          )
+        )}
+        
+     
       </ul>
 
       {open && (

@@ -1,32 +1,64 @@
-import React, { useState, useEffect } from 'react';
-import { IoBagHandle, IoPieChart, IoPeople, IoCart } from 'react-icons/io5';
+import React, { useState,useMemo, useEffect } from 'react';
 import axios from 'axios';
-
+import { IoBagHandle, IoPieChart, IoPeople, IoCart } from 'react-icons/io5';
+import { useTable } from "react-table";
+import { Link } from "react-router-dom";
 export default function Dashboard() {
   const [totalCustomers, setTotalCustomers] = useState(0);
   const [totalVendors, setTotalVendors] = useState(0);
-  const [totalApprovals, setTotalApprovals] = useState(0);
-  const [totalPendings, setTotalPendings] = useState(0);
+  const [totalBookings, setTotalBookings] = useState(0);
+  const [totalParts, setTotalParts] = useState(0);
+  
+  const [serviceRequests, setServiceRequests] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/auth/count'); // Replace YOUR_PORT with your actual port
-          const { totalCustomers, totalVendors, totalApprovals, totalPendings } = response.data;
-          console.log(response.data)
-
+        const response = await axios.get('http://localhost:3000/auth/count');
+        const { totalCustomers, totalVendors, totalBookings, totalParts } = response.data;
         setTotalCustomers(totalCustomers);
         setTotalVendors(totalVendors);
-        setTotalApprovals(totalApprovals);
-        setTotalPendings(totalPendings);
+        setTotalBookings(totalBookings);
+        setTotalParts(totalParts);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
 
     fetchData();
-  }, []); // Empty dependency array ensures the effect runs only once after the initial render
+  }, []);
 
+  useEffect(() => {
+    const fetchServiceRequests = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/appointments/view', {withCredentials: true});
+        console.log(response.data.bookings)
+        setServiceRequests(response.data.bookings);
+      } catch (error) {
+        console.error('Error fetching service requests:', error);
+      }
+    };
+
+    fetchServiceRequests();
+  }, []);
+  const columns = useMemo(
+    () => [
+      { Header: "ID", accessor: "_id" },
+      { Header: "Description", accessor: "description" },
+      { Header: "User", accessor: "userId.fullName" },
+      { Header: "User Contact", accessor: "userId.phoneNumber[0]" },
+      { Header: "Vehicle", accessor: "vehicleId.make" },
+      { Header: "Model", accessor: "vehicleId.model" },
+      { Header: "Booking Schedule", accessor: "bookingSchedule" },
+      { Header: "Status", accessor: "status" },
+    ],
+    []
+  );
+
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({
+    columns,
+    data: serviceRequests,
+  });
   return (
     <div className="flex flex-col gap-4">
       <div className="flex gap-4">
@@ -53,28 +85,63 @@ export default function Dashboard() {
           </div>
         </BoxWrapper>
         <BoxWrapper>
-          <div className="rounded-full h-12 w-12 flex items-center justify-center bg-yellow-400">
+          <div className="rounded-full h-12 w-12 flex items-center justify-center bg-green-500">
             <IoPeople className="text-2xl text-white" />
           </div>
           <div className="pl-4">
-            <span className="text-sm text-gray-500 font-light">Total Approvals</span>
+            <span className="text-sm text-gray-500 font-light">Total Bookings</span>
             <div className="flex items-center">
-              <strong className="text-xl text-gray-700 font-semibold">{totalApprovals}</strong>
+              <strong className="text-xl text-gray-700 font-semibold">{totalBookings}</strong>
             </div>
           </div>
         </BoxWrapper>
         <BoxWrapper>
-          <div className="rounded-full h-12 w-12 flex items-center justify-center bg-green-600">
+          <div className="rounded-full h-12 w-12 flex items-center justify-center bg-purple-500">
             <IoCart className="text-2xl text-white" />
           </div>
           <div className="pl-4">
-            <span className="text-sm text-gray-500 font-light">Total Pendings</span>
+            <span className="text-sm text-gray-500 font-light">Total Parts</span>
             <div className="flex items-center">
-              <strong className="text-xl text-gray-700 font-semibold">{totalPendings}</strong>
+              <strong className="text-xl text-gray-700 font-semibold">{totalParts}</strong>
             </div>
           </div>
         </BoxWrapper>
       </div>
+
+      <div className="container mx-auto mt-8 p-8">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-2xl font-semibold">Bookings</h2>
+        
+      </div>
+
+      <table className="table-auto w-full border-collapse border">
+        <thead className="bg-gray-800 text-white">
+          {headerGroups.map(headerGroup => (
+            <tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map(column => (
+                <th {...column.getHeaderProps()} className="py-2 px-4 border">
+                  {column.render("Header")}
+                </th>
+              ))}
+            </tr>
+          ))}
+        </thead>
+        <tbody {...getTableBodyProps()}>
+          {rows.map(row => {
+            prepareRow(row);
+            return (
+              <tr {...row.getRowProps()} className="hover:bg-gray-100">
+                {row.cells.map(cell => (
+                  <td {...cell.getCellProps()} className="py-2 px-4 border">
+                    {cell.render("Cell")}
+                  </td>
+                ))}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
     </div>
   );
 }

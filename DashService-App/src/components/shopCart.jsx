@@ -32,7 +32,11 @@ export default function ShopCart({isOpen,onClose}) {
 
 
   return (
-    <Transition.Root show={open} as={Fragment}>
+    <Transition.Root style={{ 
+      
+      zIndex: 1000, 
+       // Align items vertically
+    }} show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
         <Transition.Child
           as={Fragment}

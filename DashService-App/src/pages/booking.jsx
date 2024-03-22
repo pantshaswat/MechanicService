@@ -25,20 +25,16 @@ const BookingPage = () => {
     description: '',
     vehicleId: '',
     centerId: '',
-    bookingSchedule: 'none',
+    bookingSchedule: '',
 
   });
-
+  const cookies = new Cookies();
+  const token = cookies.get('token');
+  const isAuthenticated = cookies.get('token') !== undefined;
+  if (!isAuthenticated || !token) {
+    return <HomePage />
+  }
   useEffect(() => {
-    const cookies = new Cookies();
-    const isAuthenticated = cookies.get('token') !== undefined;
-    const token = cookies.get('token');
-    const user = validateJwt(token);
-
-    if (!isAuthenticated || !token) {
-      return <HomePage />
-    }
-
 
     const fetchServiceCenters = async () => {
       try {
@@ -76,27 +72,10 @@ const BookingPage = () => {
 
   }, []);
 
-  //     fetchServiceCenters();
-  //   }, []);
-  //   useEffect(() => {
-  //     const fetchServiceCenters = async () => {
-  //       try {
-  //         // Replace with your actual backend API endpoint
-  //           const response = await axios.get('http://localhost:3000/appointments/view');
-  //           console.log(response.data)
-  //         setServiceCenters(response.data);
-  //       } catch (error) {
-  //         console.error('Error fetching service centers:', error);
-  //       }
-  //     };
-
-  //     fetchServiceCenters();
-  //   }, []);
-
 
   const handleSelectCenter = (center) => {
     setSelectedCenter(center);
-
+    console.log(selectedCenter);
   };
 
   const handleChange = (e) => {
@@ -108,19 +87,19 @@ const BookingPage = () => {
   };
   const navigate = useNavigate();
   const handleBookService = async () => {
+    const user = validateJwt(token);
+    if(!user) return;
     // Add your booking logic here
     if (selectedCenter) {
       console.log('Booking service at:', selectedCenter);
       console.log('Booking details:', formData);
 
       const bookingData = {
-        userId: '65d72bbe3d32d88c3e241543',
+        userId: user._id,
         description: formData.description,
         vehicleId: formData.vehicleId,
-        centerId: selectedCenter.id,
+        centerId: selectedCenter._id,
         bookingSchedule: formData.bookingSchedule,
-
-
 
       };
 
@@ -140,16 +119,7 @@ const BookingPage = () => {
         .catch(error => {
           console.log(error)
         })
-      // console.log('Booking successful:', response.data);
-      // Reset selected center and form data after booking
-      // setSelectedCenter(null);
-      // setFormData({
-      //   userId: '',
-      //   description: '',
-      //   vehicleId: '',
-      //   centerId:'',
-      //   bookingSchedule: 'none',
-      // });
+     
     } else {
       alert('Please select a service center before booking.');
     }

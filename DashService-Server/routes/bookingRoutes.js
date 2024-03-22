@@ -13,8 +13,10 @@ router.get("/getAllServiceProvider", bookingsController.getAllServiceProviders);
 
 // POST /roadside-assistance/request
 router.post(
-  "/roadside-assistance/request",
+  "/roadSideRequest",
   bookingsController.requestRoadsideAssistance
 );
+
+router.get('/getRequest/:_id',bookingsController.getRoadSideRequest)
 
 module.exports = router;

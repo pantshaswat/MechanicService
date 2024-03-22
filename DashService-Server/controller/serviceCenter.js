@@ -13,6 +13,16 @@ async function getAllServiceCenter(req, res) {
     res.status(500).json({ error: "Internal Server Error" });
   }
 }
+async function getServiceCenter(req,res){
+  try {
+    const _id = req.params._id;
+    const serveCenter = await serviceCenter.findOne({ownerUserId: _id});
+    return res.status(200).send(serveCenter)
+  } catch (error) {
+    console.log('error getting srvice center')
+    return res.status(400).send(error)
+  }
+}
 async function approveServiceCenter(req, res) {
   const user_id = req.params._id;
   try {
@@ -76,4 +86,4 @@ async function submitRequest(req, res) {
     res.status(500).json({ error: "Internal Server Error" });
   }
 }
-module.exports = { submitRequest, approveServiceCenter, getAllServiceCenter };
+module.exports = { submitRequest, approveServiceCenter, getAllServiceCenter,getServiceCenter };

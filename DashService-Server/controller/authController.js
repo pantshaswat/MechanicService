@@ -1,6 +1,7 @@
 const userModel = require("../models/userModel");
 const ObjectId = require("mongoose").Types.ObjectId;
-
+const Booking = require('../models/bookingModel');
+const VehiclePartsModel = require('../models/vehicleParts')
 const md5 = require("md5");
 const { createJwt } = require("../middlewares/jwtAuthMiddleware");
 
@@ -74,11 +75,19 @@ async function count(req, res) {
     const totalVendors = await userModel.countDocuments({
       role: "serviceCenter",
     });
+    const totalBookings = await Booking.countDocuments({
+      
+    });
+    const totalParts = await VehiclePartsModel.countDocuments({
+
+    });
     // Add more counts as needed
 
     const counts = {
       totalCustomers,
       totalVendors,
+      totalBookings,
+      totalParts
       // Add more counts as needed
     };
 

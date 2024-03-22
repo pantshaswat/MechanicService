@@ -22,6 +22,9 @@ import ShopCart from './components/shopCart';
 import AddVehiclePart from './pages/addParts';
 import NotificationPage from './pages/notificationPage';
 import BookingRequest from './pages/bookingRequest';
+import BookingListPage from './pages/bookedLists';
+import RoadSideRequestPage from './pages/roadSideRequestPage';
+import RoadSideReqList from './pages/roadSideListPage';
 function App() {
   return (
     <Router>
@@ -48,10 +51,18 @@ function App() {
         <Route exact path="/createProduct" element={<PrivateServiceCenterRoute />} >
           <Route exact path="/createProduct" element={<AddVehiclePart />} />
         </Route>
+        <Route exact path="/bookingRequests" element={<PrivateServiceCenterRoute />} >
+          <Route exact path="/bookingRequests" element={<BookingListPage />} />
+        </Route>
+        <Route exact path="/roadSideRequests" element={<PrivateServiceCenterRoute />} >
+          <Route exact path="/roadSideRequests" element={<RoadSideReqList />} />
+        </Route>
         <Route exact path='/notifications' element={<NotificationPage></NotificationPage>}>
 
         </Route>
+        <Route exact path='/roadSideRequest' element={<RoadSideRequestPage></RoadSideRequestPage>}>
 
+</Route>
 
 
 

@@ -7,14 +7,15 @@ const RoadsideAModelSchema = new mongoose.Schema(
       ref: "users",
       required: true,
     },
+    description:{
+      type: String,
+      required: true
+    },
     location: {
-      type: String,
+      type: [Number],
       required: true,
     },
-    pickupTime: {
-      type: String,
-      required: true,
-    },
+    
     centerid: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "ServiceCenter",
