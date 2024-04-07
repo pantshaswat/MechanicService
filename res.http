@@ -1,0 +1,77 @@
+//res.http server req template
+
+@baseUrl=http://localhost:3000
+@userId=""
+
+
+GET {{baseUrl}} HTTP/1.1
+
+###
+# Register a new user
+POST http://localhost:3000/auth/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "password123",
+  "fullName": "John Doe",
+  "role": "ClientUser"
+}
+
+###
+# Login with the registered user
+POST http://localhost:3000/auth/signIn HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "password123"
+}
+
+# Logout
+POST {{baseUrl}}/logout
+# Book Appointment
+POST {{baseUrl}}/appointments/book
+Content-Type: application/json
+
+{
+  "userId": "{{userId}}",
+  "date": "2024-02-20"
+}
+
+# View Appointments
+GET {{baseUrl}}/appointments/view/{{userId}}
+
+# Request Roadside Assistance
+POST {{baseUrl}}/roadside-assistance/request
+Content-Type: application/json
+
+{
+  "userId": "{{userId}}"
+}
+
+# Get Marketplace Information
+GET {{baseUrl}}/marketplace
+
+# Get Aftermarket Parts Information
+GET {{baseUrl}}/aftermarket-parts
+
+# Notify for Servicing
+POST {{baseUrl}}/notify-for-servicing
+Content-Type: application/json
+
+{
+  "userId": "{{userId}}"
+}
+
+# Get Kilometer History
+GET {{baseUrl}}/kilometer-history/{{userId}}
+
+# Submit Feedback
+POST {{baseUrl}}/feedback
+Content-Type: application/json
+
+{
+  "userId": "{{userId}}",
+  "feedback": "Your feedback here"
+}
