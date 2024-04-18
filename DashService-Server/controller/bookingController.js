@@ -58,7 +58,7 @@ exports.viewAppointments = async (req, res) => {
 
 exports.viewAppointmentsAll = async (req, res) => {
   try {
-    const allBookings = await Booking.find({})
+    const allBookings = await Booking.find()
     .populate('userId')
     .populate('vehicleId');
 

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
+import Navbar from '../components/Navbar';
 export default function Login() {
 
   const [email, setEmail] = useState("");
@@ -38,14 +38,21 @@ export default function Login() {
     })
 
   }
+  const backgroundImageUrl = 'https://t3.ftcdn.net/jpg/04/26/71/86/360_F_426718640_YZ6RFhGqwb7TCh5480prCzzxt9Zp6mIU.jpg'; 
+
+    const backimg = {
+        backgroundImage: `url(${backgroundImageUrl})`,
+        backgroundSize: 'cover',
+      
+    };
   return (
     <>
-     
-      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+     <Navbar/>
+      <div style={backimg} className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <div className= 'text-5xl font-bold text-center'>Dash Service</div>
+          <div className= ' text-gray-100 text-5xl font-bold text-center'>Dash Service</div>
             
-          <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+          <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-100">
             Sign in to your account
           </h2>
         </div>
@@ -53,7 +60,7 @@ export default function Login() {
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form className="space-y-6" >
             <div>
-              <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+              <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-100">
                 Email address
               </label>
               <div className="mt-2">
@@ -71,14 +78,10 @@ export default function Login() {
 
             <div>
               <div className="flex items-center justify-between">
-                <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+                <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-100">
                   Password
                 </label>
-                <div className="text-sm">
-                  <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
-                    Forgot password?
-                  </a>
-                </div>
+                
               </div>
               <div className="mt-2">
                 <input

@@ -1,4 +1,3 @@
-// Users.js
 import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { useTable } from "react-table";
@@ -8,7 +7,6 @@ import Sidebar from "../SideBar";
 const Users = () => {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
-
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -27,39 +25,36 @@ const Users = () => {
     fetchUsers();
   }, []);
 
- const handleUserDelete = async({_id})=>{
+  const handleUserDelete = async({_id})=>{
     try {
       await axios.delete(`http://localhost:3000/auth/delete/${_id}`, {withCredentials: true});
-      console.log('user deleted successfully')
-      window.location.reload();
+      console.log('user deleted successfully');
+      // Instead of reloading the window, consider updating the state or refetching users.
     } catch (error) {
       console.error(error);
     }
-  }
+  };
+
   const columns = useMemo(
     () => [
       { Header: "ID", accessor: "_id" },
       { Header: "Full Name", accessor: "fullName" },
       { Header: "Email", accessor: "email" },
       { Header: "Role", accessor: "role" },
-      {
-        Header: "Actions",
-        accessor: "hello",
-        Cell: ({ row }) => (
-          <>
-            
-            <button onClick={()=> {
-              const _id = row.original._id
-             
-              handleUserDelete({_id: _id});
-              }} className="btn btn-danger btn-sm">
-              {/* delete button red */}
-              Delete
-              
-            </button>
-          </>
-        ),
-      },
+      // {
+      //   Header: "Actions",
+      //   accessor: "hello",
+      //   Cell: ({ row }) => (
+      //     <>
+      //       <button onClick={()=> {
+      //         const _id = row.original._id;
+      //         handleUserDelete({_id: _id});
+      //       }} className="btn btn-danger btn-sm">
+      //         Delete
+      //       </button>
+      //     </>
+      //   ),
+      // },
     ],
     []
   );
@@ -70,12 +65,10 @@ const Users = () => {
   });
 
   return (
-      <div className="container mx-auto mt-8 p-8">
+    <div className="container mx-auto mt-8 p-8 overflow-auto">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-semibold">User Management</h2>
-        <Link to="/users/new" className="btn btn-primary">
-          Add User
-        </Link>
+        
       </div>
 
       <table className="table-auto w-full border-collapse border">
@@ -105,9 +98,7 @@ const Users = () => {
           })}
         </tbody>
       </table>
-      
-      </div>
-      
+    </div>
   );
 };
 

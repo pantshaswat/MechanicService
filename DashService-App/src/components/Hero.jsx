@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Hero = () => {
-    const backgroundImageUrl = 'https://img.freepik.com/free-photo/benchman-fixing-engine-car_114579-2807.jpg?w=900&t=st=1709282433~exp=1709283033~hmac=f597cb9bb45b4f3b4f6aa3a5d01df59ced46a71ea34a5c8c06836e1cf6289ad7'; // Replace with your image URL
+    const backgroundImageUrl = 'https://t3.ftcdn.net/jpg/04/26/71/86/360_F_426718640_YZ6RFhGqwb7TCh5480prCzzxt9Zp6mIU.jpg'; 
 
     const heroStyle = {
         backgroundImage: `url(${backgroundImageUrl})`,
@@ -31,7 +31,13 @@ const Hero = () => {
                 <p className="md:text-lg text-base font-bold text-gray-200">
                     Your trusted partner for vehicle maintenance and services
                 </p>
-                <button className="bg-white text-blue-500 w-[200px] rounded-md font-medium my-6 mx-auto py-4">
+                <button onClick={
+                    () => {
+                     
+                         window.location.href = "/register";
+                    }
+                
+                } className="bg-white text-blue-500 w-[200px] rounded-md font-medium my-6 mx-auto py-4">
                     Get Started
                 </button>
             </div>

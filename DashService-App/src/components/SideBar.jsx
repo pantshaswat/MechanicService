@@ -25,6 +25,8 @@ export default function Sidebar() {
 const handleLogOut = ()=>{
     cookies.remove('token');
     navigate('/');
+    
+    window.location.reload();
 }
   return (
     <div className="flex h-screen">
