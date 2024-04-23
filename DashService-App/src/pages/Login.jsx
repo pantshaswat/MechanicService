@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { Toaster, toast } from 'sonner';
 
 export default function Login() {
 
@@ -31,10 +32,12 @@ export default function Login() {
       }
       if(result.data.role === 'ClientUser' || result.data.role === 'serviceCenter'){
         navigate('/');
+        toast.success('Login successful')
       }
     })
     .catch((error)=>{
       console.log(error)
+      toast.error('Invalid email or password')
     })
 
   }
@@ -74,11 +77,7 @@ export default function Login() {
                 <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
                   Password
                 </label>
-                <div className="text-sm">
-                  <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
-                    Forgot password?
-                  </a>
-                </div>
+                
               </div>
               <div className="mt-2">
                 <input
@@ -110,6 +109,7 @@ export default function Login() {
 Register   </Link>       </p>
         </div>
       </div>
+      <Toaster/>
     </>
   );
 }
