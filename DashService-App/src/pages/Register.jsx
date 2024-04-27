@@ -1,7 +1,7 @@
 import React,{ useState } from "react";
 import { Link,useNavigate } from "react-router-dom";
 import axios from 'axios';
-
+import Navbar from "../components/Navbar";
 export default function Register() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -42,13 +42,20 @@ export default function Register() {
     }
   })
   };
+  const backgroundImageUrl = 'https://t3.ftcdn.net/jpg/04/26/71/86/360_F_426718640_YZ6RFhGqwb7TCh5480prCzzxt9Zp6mIU.jpg'; 
+
+    const backimg = {
+        backgroundImage: `url(${backgroundImageUrl})`,
+        backgroundSize: 'cover',
+      
+    };
   return (
     <>
-     
-      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+     <Navbar />
+      <div style={backimg} className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <div className= 'text-5xl font-bold text-center'>Dash Service</div>
-          <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+        <div className= 'text-5xl text-gray-100 font-bold text-center'>Dash Service</div>
+          <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-100">
             Register
           </h2>
         </div>
@@ -56,7 +63,7 @@ export default function Register() {
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                   <form className="space-y-6" action="#" method="POST">
                       <div>
-              <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
+              <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-100">
                 Name
               </label>
               <div className="mt-2">
@@ -72,7 +79,7 @@ export default function Register() {
                 />
               </div>
             </div><div>
-              <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+              <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-100">
                 Email address
               </label>
               <div className="mt-2">
@@ -89,7 +96,7 @@ export default function Register() {
               </div>
             </div>
             <div>
-              <label htmlFor="number" className="block text-sm font-medium leading-6 text-gray-900">
+              <label htmlFor="number" className="block text-sm font-medium leading-6 text-gray-100">
                 Phone Number
               </label>
               <div className="mt-2">
@@ -108,7 +115,7 @@ export default function Register() {
 
             <div>
               <div className="flex items-center justify-between">
-                <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+                <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-100">
                   Password
                 </label>
                 

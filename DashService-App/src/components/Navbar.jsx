@@ -147,8 +147,9 @@ const Navbar = () => {
                 onClick={() => {
                   cookies.remove('token');
 
-                  window.location.reload();
+                 
                   navigate('/');
+                  window.location.reload();
                 }}
                 className="p-4 text-center font-medium rounded-md w-24 px-3 text-white bg-[#575ec2]"
                 style={{
@@ -282,8 +283,8 @@ const Navbar = () => {
                 onClick={() => {
                   cookies.remove('token');
 
-                  window.location.reload();
                   navigate('/');
+                  window.location.reload();
                 }}
                 className="p-4 text-center font-medium rounded-md w-24 px-3 text-white bg-[#575ec2]"
                 style={{

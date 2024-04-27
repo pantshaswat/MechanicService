@@ -50,7 +50,7 @@ export default function Dashboard() {
       { Header: "Vehicle", accessor: "vehicleId.make" },
       { Header: "Model", accessor: "vehicleId.model" },
       { Header: "Booking Schedule", accessor: "bookingSchedule" },
-      { Header: "Status", accessor: "status" },
+      
     ],
     []
   );
@@ -132,6 +132,7 @@ export default function Dashboard() {
             return (
               <tr {...row.getRowProps()} className="hover:bg-gray-100">
                 {row.cells.map(cell => (
+      
                   <td {...cell.getCellProps()} className="py-2 px-4 border">
                     {cell.render("Cell")}
                   </td>
