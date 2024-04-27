@@ -1,7 +1,8 @@
 import axios from 'axios';
 import {useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Navbar from '../components/Navbar';
+import { Toaster, toast } from 'sonner';
+
 export default function Login() {
 
   const [email, setEmail] = useState("");
@@ -31,10 +32,12 @@ export default function Login() {
       }
       if(result.data.role === 'ClientUser' || result.data.role === 'serviceCenter'){
         navigate('/');
+        toast.success('Login successful')
       }
     })
     .catch((error)=>{
       console.log(error)
+      toast.error('Invalid email or password')
     })
 
   }
@@ -82,6 +85,7 @@ export default function Login() {
                   Password
                 </label>
                 
+                
               </div>
               <div className="mt-2">
                 <input
@@ -113,6 +117,7 @@ export default function Login() {
 Register   </Link>       </p>
         </div>
       </div>
+      <Toaster/>
     </>
   );
 }

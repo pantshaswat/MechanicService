@@ -78,9 +78,12 @@ const RoadSideRequestPage = () => {
             description: formData.description,
             location: location 
           };
+          console.log('Booking data:', user._id)
 
           // Send road side assistance request
-          axios.post(`http://localhost:3000/appointments/roadSideRequest/${user._id}`, bookingData, {
+          axios.post(`http://localhost:3000/appointments/roadSideRequest/${user._id}`,
+            
+            bookingData, {
             headers: {
               'Content-Type': 'application/json',
             },
